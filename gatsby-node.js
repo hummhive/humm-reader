@@ -4,4 +4,24 @@
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
 
-// You can delete this file if you're not using it
+const indexJSON = require("./content/index.json");
+
+exports.createPages = ({ actions }) => {
+  const { createPage } = actions;
+
+  createPage({
+    path: '/',
+    component: require.resolve("./src/templates/indexTemplate.js"),
+    context: { pageContent: indexJSON },
+  });
+  
+  indexJSON.forEach(element => {
+    createPage({
+      path: element.slug,
+      component: require.resolve("./src/templates/DocumentTemplate"),
+      context: {
+        pageContent: require(`./content/${element.slug}`),
+      },
+    });
+  });
+};
