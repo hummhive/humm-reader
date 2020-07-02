@@ -11,7 +11,7 @@ exports.createPages = ({ actions }) => {
 
   createPage({
     path: '/',
-    component: require.resolve("./src/templates/indexTemplate.js"),
+    component: require.resolve("./src/templates/IndexTemplate"),
     context: { pageContent: indexJSON },
   });
   
