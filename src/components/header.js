@@ -1,42 +1,18 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
+import { FiHexagon } from 'react-icons/fi';
+import { FaBookmark } from 'react-icons/fa';
 import React from "react"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
+const Header = () => (
+  <div className="wrapper">
+  <div className="header">
+  <div className="container d-flex p-3">
+  <div className="title"><Link to="/"><FiHexagon />Rolf's Newsletter</Link></div>
+  <div className="subscribe"><Link to="/subscribe"><FaBookmark />Subscribe to my newsletter</Link></div>
+  </div>
+</div>
+</div>
 )
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
 
 export default Header
