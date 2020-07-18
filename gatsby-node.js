@@ -11,14 +11,19 @@ exports.createPages = ({ actions }) => {
 
   createPage({
     path: '/',
-    component: require.resolve("./src/templates/IndexTemplate"),
+    component: require.resolve("./src/templates/home"),
     context: { pageContent: indexJSON },
   });
-  
+
+  createPage({
+    path: '/subscribe',
+    component: require.resolve("./src/templates/subscribe"),
+  });
+
   indexJSON.forEach(element => {
     createPage({
-      path: element.slug,
-      component: require.resolve("./src/templates/DocumentTemplate"),
+      path: `/story/${element.slug}`,
+      component: require.resolve("./src/templates/story"),
       context: {
         pageContent: require(`./content/${element.slug}`),
       },
