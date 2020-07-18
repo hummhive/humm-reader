@@ -1,0 +1,33 @@
+import React from "react";
+import Layout from "../../components/layout"
+import { Breadcrumb } from "gatsby-plugin-breadcrumb"
+import { FiClock } from 'react-icons/fi';
+import SEO from "../../components/seo"
+import { Link } from "gatsby"
+
+const home = ({pageContext }) => {
+  const { pageContent, breadcrumb } = pageContext;
+  return (
+    <Layout>
+      <SEO title="Home" />
+      <Breadcrumb crumbs={breadcrumb.crumbs} crumbSeparator=" / " crumbLabel="Home" />
+    <div className="container content">
+        {pageContent.map((data, index) => {
+          return (
+          <div className="post">
+          <div className="post-title" key={`content_item_${index}`}>
+            <Link className="navbar-brand" to={`/story/${data.slug}`}>{data.title}</Link>
+          </div>
+          <div className="post-content">No wonder then these delicate buildings often turn into architectural nightmares that run over-budget, over-schedule and under-perform.</div>
+            <div className="meta d-flex pt-2">
+              <div className="date"><FiClock /> July 16, 2020</div>
+            </div>
+          </div>
+        )
+        })}
+    </div>
+    </Layout>
+  );
+}
+
+export default home;
