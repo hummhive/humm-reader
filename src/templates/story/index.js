@@ -1,13 +1,16 @@
 import React from "react";
+import Layout from "../../components/layout"
+import { Breadcrumb } from "gatsby-plugin-breadcrumb"
 import DocumentBuilder from '../../components/documentBuilder';
 import { DocumentContainer, TitleContainer } from './styled';
 
-const documentTemplate = props => {
-  const { pageContext } = props;
-  const { pageContent } = pageContext;
+const story = ({pageContext }) => {
+  const { pageContent, breadcrumb } = pageContext;
   const body = JSON.parse(pageContent.body);
 
   return (
+    <Layout>
+    <Breadcrumb crumbs={breadcrumb.crumbs} crumbSeparator=" / " crumbLabel={pageContent.title} />
     <DocumentContainer>
       <TitleContainer>
         <h1>{pageContent.title}</h1>
@@ -16,7 +19,8 @@ const documentTemplate = props => {
         <DocumentBuilder key={i} element={element} />
       )}
     </DocumentContainer>
+    </Layout>
   );
 }
 
-export default documentTemplate;
+export default story;
