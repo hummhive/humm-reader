@@ -5,6 +5,7 @@
  */
 
 const indexJSON = require("./content/index.json");
+const hiveJSON = require("./content/hive-config.json");
 
 exports.createPages = ({ actions }) => {
   const { createPage } = actions;
@@ -12,7 +13,7 @@ exports.createPages = ({ actions }) => {
   createPage({
     path: '/',
     component: require.resolve("./src/templates/home"),
-    context: { pageContent: indexJSON },
+    context: { pageContent: indexJSON, hive: hiveJSON },
   });
 
   createPage({
@@ -26,6 +27,7 @@ exports.createPages = ({ actions }) => {
       component: require.resolve("./src/templates/story"),
       context: {
         pageContent: require(`./content/${element.slug}`),
+        hive: hiveJSON,
       },
     });
   });

@@ -6,12 +6,12 @@ import SEO from "../../components/seo"
 import { Link } from "gatsby"
 
 const home = ({pageContext }) => {
-  const { pageContent, breadcrumb } = pageContext;
+  const { pageContent, hive, breadcrumb } = pageContext;
   return (
-    <Layout>
+    <Layout hive={hive}>
       <SEO title="Home" />
       <Breadcrumb crumbs={breadcrumb.crumbs} crumbSeparator=" / " crumbLabel="Home" />
-    <div className="container content">
+      <div className="container content">
         {pageContent.map((data, index) => {
           return (
           <div className="post">
@@ -25,7 +25,7 @@ const home = ({pageContext }) => {
           </div>
         )
         })}
-    </div>
+      </div>
     </Layout>
   );
 }

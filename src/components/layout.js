@@ -11,15 +11,15 @@ import Header from "./header"
 import { FaPlusCircle } from 'react-icons/fa';
 import "./bootstrap.min.css";
 import "./layout.css"
-const Layout = ({ children }) => {
+const Layout = ({ children, hive }) => {
   return (
     <>
-      <Header />
-        <main>{children}</main>
-        <footer className="container">
-          The Rolf's Newsletter is Powered by the Humm Reader <br />
-        <a className="start-creating" href="https://humm.earth"><FaPlusCircle /> Start Creating</a>
-        </footer>
+      <Header hive={hive} />
+      <main>{children}</main>
+      <footer className="container">
+        {hive.name} is Powered by the Humm Reader <br />
+      <a className="start-creating" href="https://humm.earth"><FaPlusCircle /> Start Creating</a>
+      </footer>
     </>
   )
 }
