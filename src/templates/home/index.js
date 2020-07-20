@@ -18,9 +18,8 @@ const home = ({pageContext }) => {
           <div className="post-title" key={`content_item_${index}`}>
             <Link className="navbar-brand" to={`/story/${data.slug}`}>{data.title}</Link>
           </div>
-          <div className="post-content">No wonder then these delicate buildings often turn into architectural nightmares that run over-budget, over-schedule and under-perform.</div>
             <div className="meta d-flex pt-2">
-              <div className="date"><FiClock /> July 16, 2020</div>
+              <div className="date"><FiClock /> July 20, 2020</div>
             </div>
           </div>
         )
