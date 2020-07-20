@@ -9,8 +9,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import Header from "./header"
 import { FaPlusCircle } from 'react-icons/fa';
-//import "./bootstrap.min.css";
-//import "./layout.css"
+import "./bootstrap.min.css";
+import "./layout.css"
 const Layout = ({ children, hive }) => {
   return (
     <>
