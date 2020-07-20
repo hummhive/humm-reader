@@ -703,14 +703,14 @@ margin: 0;
 
 .title {
 	flex-grow: 1;
-	font-size: ;
+	/* font-size: ; */
 	font-weight: 700;
 	font-size: 21px;
 }
 
 .title svg {
 	margin-right: 7px;
-	padding: ;
+	/* padding: ; */
 	width: 40px;
 	height: 40px;
 }
