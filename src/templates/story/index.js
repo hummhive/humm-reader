@@ -5,11 +5,11 @@ import DocumentBuilder from '../../components/documentBuilder';
 import { DocumentContainer, TitleContainer } from './styled';
 
 const story = ({pageContext }) => {
-  const { pageContent, breadcrumb } = pageContext;
+  const { pageContent, breadcrumb, hive } = pageContext;
   const body = JSON.parse(pageContent.body);
 
   return (
-    <Layout>
+    <Layout hive={hive}>
     <Breadcrumb crumbs={breadcrumb.crumbs} crumbSeparator=" / " crumbLabel={pageContent.title} />
     <DocumentContainer>
       <TitleContainer>

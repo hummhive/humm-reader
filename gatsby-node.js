@@ -16,11 +16,6 @@ exports.createPages = ({ actions }) => {
     context: { pageContent: indexJSON, hive: hiveJSON },
   });
 
-  createPage({
-    path: '/subscribe',
-    component: require.resolve("./src/templates/subscribe"),
-  });
-
   indexJSON.forEach(element => {
     createPage({
       path: `/story/${element.slug}`,
