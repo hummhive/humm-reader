@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const LI = styled.li`
   /* display: inline-block; */
@@ -8,4 +8,4 @@ export const LI = styled.li`
   line-height: 32px;
   letter-spacing: 0.15px;
   margin: 0;
-`;
+`

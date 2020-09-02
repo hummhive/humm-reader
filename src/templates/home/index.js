@@ -1,32 +1,29 @@
-import React from "react";
+import React from "react"
 import Layout from "../../components/layout"
 import { Breadcrumb } from "gatsby-plugin-breadcrumb"
-import { FiClock } from 'react-icons/fi';
+import PropTypes from "prop-types"
 import SEO from "../../components/seo"
-import { Link } from "gatsby"
+import DocumentList from "../../components/documentList"
 
-const home = ({pageContext }) => {
-  const { pageContent, hive, breadcrumb } = pageContext;
+const Home = ({ pageContext }) => {
+  const { breadcrumb } = pageContext
   return (
-    <Layout hive={hive}>
+    <Layout>
       <SEO title="Home" />
-      <Breadcrumb crumbs={breadcrumb.crumbs} crumbSeparator=" / " crumbLabel="Home" />
+      <Breadcrumb
+        crumbs={breadcrumb.crumbs}
+        crumbSeparator=" / "
+        crumbLabel="Home"
+      />
       <div className="container content">
-        {pageContent.map((data, index) => {
-          return (
-          <div className="post">
-          <div className="post-title" key={`content_item_${index}`}>
-            <Link className="navbar-brand" to={`/story/${data.slug}`}>{data.title}</Link>
-          </div>
-            <div className="meta d-flex pt-2">
-              <div className="date"><FiClock /> July 20, 2020</div>
-            </div>
-          </div>
-        )
-        })}
+        <DocumentList />
       </div>
     </Layout>
-  );
+  )
 }
 
-export default home;
+Home.propTypes = {
+  pageContext: PropTypes.object,
+}
+
+export default Home

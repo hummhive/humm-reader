@@ -4,17 +4,15 @@
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
 
-const indexJSON = require("./content/index.json");
-const hiveJSON = require("./content/hive-config.json");
+const indexJSON = require("./content/index.json")
 
-exports.createPages = ({ actions }) => {
-  const { createPage } = actions;
+exports.createPages = async ({ actions }) => {
+  const { createPage } = actions
 
   createPage({
-    path: '/',
+    path: "/",
     component: require.resolve("./src/templates/home"),
-    context: { pageContent: indexJSON, hive: hiveJSON },
-  });
+  })
 
   indexJSON.forEach(element => {
     createPage({
@@ -22,8 +20,7 @@ exports.createPages = ({ actions }) => {
       component: require.resolve("./src/templates/story"),
       context: {
         pageContent: require(`./content/${element.slug}`),
-        hive: hiveJSON,
       },
-    });
-  });
-};
+    })
+  })
+}

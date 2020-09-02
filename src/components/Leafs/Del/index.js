@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Del } from './styled';
+import React from "react"
+import PropTypes from "prop-types"
+import { Del } from "./styled"
 
 function DelBlock(props) {
-  return <Del>{props.children}</Del>;
+  return <Del>{props.children}</Del>
 }
 
 DelBlock.propTypes = {
   children: PropTypes.any,
-};
+}
 
-export default DelBlock;
+export default DelBlock

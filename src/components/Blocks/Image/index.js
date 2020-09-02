@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Loader from '../../Loader';
-import { Image, LoaderContainer } from './styled';
+import React from "react"
+import PropTypes from "prop-types"
+import Loader from "../../Loader"
+import { Image, LoaderContainer } from "./styled"
 
 const ImageBlock = ({ src }) => {
   if (!src)
@@ -9,15 +9,13 @@ const ImageBlock = ({ src }) => {
       <LoaderContainer>
         <Loader isShowing size={56} />
       </LoaderContainer>
-    );
+    )
 
-  return (
-    <Image src={src} />
-  );
-};
+  return <Image src={src} />
+}
 
 ImageBlock.propTypes = {
   src: PropTypes.string,
-};
+}
 
-export default ImageBlock;
+export default ImageBlock

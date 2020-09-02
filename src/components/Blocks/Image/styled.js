@@ -1,16 +1,16 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const Image = styled.img`
   width: 100%;
   height: auto;
   outline: solid 0px ${props => props.theme.secondaryVivid};
-  outline-width: ${props => (props.isFocused ? '4px' : '0px')};
+  outline-width: ${props => (props.isFocused ? "4px" : "0px")};
   transition: border-width 100ms linear;
   margin: 16px 0;
   min-height: 100px;
   background: ${props => props.theme.rowDivider};
   cursor: default;
-`;
+`
 
 export const LoaderContainer = styled.div`
   display: flex;
@@ -21,5 +21,5 @@ export const LoaderContainer = styled.div`
   background: rgba(0, 0, 0, 0.1);
   margin: 16px 0;
   outline: solid 0px ${props => props.theme.secondaryVivid};
-  outline-width: ${props => (props.isFocused ? '4px' : '0px')};
-`;
+  outline-width: ${props => (props.isFocused ? "4px" : "0px")};
+`

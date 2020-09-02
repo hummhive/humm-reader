@@ -1,3 +1,3 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
-export const Strong = styled.strong``;
+export const Strong = styled.strong``

@@ -1,21 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import anime from 'animejs';
-import Loader from 'react-loader-spinner';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import React from "react"
+import PropTypes from "prop-types"
+import anime from "animejs"
+import Loader from "react-loader-spinner"
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 // import Logo from 'components/Icons/LogoStroked';
-import { Container } from './styled';
+import { Container } from "./styled"
 
 class LoaderComponent extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       _isShowing: false,
-    };
+    }
 
-    this.containerRef = React.createRef();
-    this.logoRef = React.createRef();
+    this.containerRef = React.createRef()
+    this.logoRef = React.createRef()
   }
 
   componentDidMount() {
@@ -29,12 +29,12 @@ class LoaderComponent extends React.Component {
     //   autoplay: false,
     // });
 
-    if (this.props.isShowing) this.show();
+    if (this.props.isShowing) this.show()
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.isShowing && this.props.isShowing) this.show();
-    if (prevProps.isShowing && !this.props.isShowing) this.hide();
+    if (!prevProps.isShowing && this.props.isShowing) this.show()
+    if (prevProps.isShowing && !this.props.isShowing) this.hide()
   }
 
   show() {
@@ -45,9 +45,9 @@ class LoaderComponent extends React.Component {
         targets: this.containerRef.current,
         opacity: [0, 1],
         duration: 400,
-        easing: 'linear',
-      });
-    });
+        easing: "linear",
+      })
+    })
   }
 
   hide() {
@@ -55,17 +55,17 @@ class LoaderComponent extends React.Component {
       targets: this.containerRef.current,
       opacity: [1, 0],
       duration: 400,
-      easing: 'linear',
+      easing: "linear",
       complete: () => {
         // this.logoAnim.pause();
-        this.setState({ _isShowing: false });
+        this.setState({ _isShowing: false })
       },
-    });
+    })
   }
 
   render() {
-    const { _isShowing } = this.state;
-    const { inline, fullscreen, color, size } = this.props;
+    const { _isShowing } = this.state
+    const { inline, fullscreen, color, size } = this.props
 
     return (
       <Container
@@ -76,12 +76,12 @@ class LoaderComponent extends React.Component {
       >
         <Loader
           type="TailSpin"
-          color={color || '#fff'}
+          color={color || "#fff"}
           height={size || 100}
           width={size || 100}
         />
       </Container>
-    );
+    )
   }
 }
 
@@ -94,6 +94,6 @@ LoaderComponent.propTypes = {
   fullscreen: PropTypes.bool,
   color: PropTypes.string,
   size: PropTypes.number,
-};
+}
 
-export default LoaderComponent;
+export default LoaderComponent

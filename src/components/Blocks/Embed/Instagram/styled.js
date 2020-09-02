@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const EmbedContianer = styled.div`
   position: relative;
@@ -7,5 +7,5 @@ export const EmbedContianer = styled.div`
   flex-direction: column;
   align-items: center;
   outline: solid 0px ${props => props.theme.secondaryVivid};
-  outline-width: ${props => (props.isFocused ? '4px' : '0px')};
-`;
+  outline-width: ${props => (props.isFocused ? "4px" : "0px")};
+`

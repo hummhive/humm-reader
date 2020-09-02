@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const A = styled.a`
   text-decoration: none;
@@ -7,12 +7,12 @@ export const A = styled.a`
     if (props.isActive)
       return props.isEditor
         ? props.theme.secondaryVivid
-        : props.theme.primary400;
+        : props.theme.primary400
 
-    return '#d9d9ce';
+    return "#d9d9ce"
   }};
   cursor: pointer;
   :visited {
     color: #333;
   }
-`;
+`

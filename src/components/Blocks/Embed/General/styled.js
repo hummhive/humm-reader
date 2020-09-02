@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const EmbedContianer = styled.div`
   margin: 16px 0;
   display: flex;
   outline: solid 0px ${props => props.theme.secondaryVivid};
-  outline-width: ${props => (props.isFocused ? '4px' : '0px')};
+  outline-width: ${props => (props.isFocused ? "4px" : "0px")};
   background: ${props => props.theme.readerAppSurface};
   border: 4px solid #ffffff;
   border-radius: 4px;
@@ -16,11 +16,11 @@ export const EmbedContianer = styled.div`
   :hover {
     background: #fff;
   }
-`;
+`
 
 export const EmbedTextContainer = styled.div`
   flex: 1;
-`;
+`
 
 export const EmbedTitle = styled.div`
   font-family: Muli;
@@ -37,7 +37,7 @@ export const EmbedTitle = styled.div`
   ${EmbedContianer}:hover & {
     color: #000;
   }
-`;
+`
 
 export const EmbedDescription = styled.p`
   font-family: Libre Baskerville;
@@ -54,7 +54,7 @@ export const EmbedDescription = styled.p`
   ${EmbedContianer}:hover & {
     color: #000;
   }
-`;
+`
 
 export const EmbedUrlContainer = styled.div`
   display: flex;
@@ -67,14 +67,14 @@ export const EmbedUrlContainer = styled.div`
   ${EmbedContianer}:hover & {
     color: #000;
   }
-`;
+`
 
 export const EmbedFavicon = styled.img`
   flex-shrink: 0;
   width: 16px;
   height: 16px;
   margin-right: 4px;
-`;
+`
 
 export const EmbedUrl = styled.p`
   align-self: flex-start;
@@ -85,7 +85,7 @@ export const EmbedUrl = styled.p`
   line-height: 16px;
   color: ${props => props.theme.primary400};
   margin: 0;
-`;
+`
 
 export const EmbedImage = styled.img`
   flex-basis: 176px;
@@ -96,4 +96,4 @@ export const EmbedImage = styled.img`
   ${EmbedContianer}:hover & {
     transform: scale(1.1);
   }
-`;
+`

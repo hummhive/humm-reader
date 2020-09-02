@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Quote } from './styled';
+import React from "react"
+import PropTypes from "prop-types"
+import { Quote } from "./styled"
 
-const QuoteBlock = props => <Quote>{props.children}</Quote>;
+const QuoteBlock = props => <Quote>{props.children}</Quote>
 
 QuoteBlock.propTypes = {
   children: PropTypes.any,
-};
+}
 
-export default QuoteBlock;
+export default QuoteBlock

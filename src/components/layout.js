@@ -8,17 +8,21 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Header from "./header"
-import { FaPlusCircle } from 'react-icons/fa';
-import "./bootstrap.min.css";
+import { FaPlusCircle } from "react-icons/fa"
+import "./bootstrap.min.css"
 import "./layout.css"
-const Layout = ({ children, hive }) => {
+const hiveJSON = require("../../content/hive-config.json")
+
+const Layout = ({ children }) => {
   return (
     <>
-      <Header hive={hive} />
+      <Header hive={hiveJSON} />
       <main>{children}</main>
       <footer className="container">
-        {hive.name} is Powered by the Humm Reader <br />
-      <a className="start-creating" href="https://humm.earth"><FaPlusCircle /> Start Creating</a>
+        {hiveJSON.name} is Powered by the Humm Reader <br />
+        <a className="start-creating" href="https://humm.earth">
+          <FaPlusCircle /> Start Creating
+        </a>
       </footer>
     </>
   )
