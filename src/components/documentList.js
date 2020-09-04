@@ -24,7 +24,7 @@ const DocumentList = () => {
             </Link>
           </div>
           <div className="meta d-flex pt-2">
-            <div className="date"></div>
+            <div className="date">{data.date}</div>
           </div>
         </div>
       ))}
