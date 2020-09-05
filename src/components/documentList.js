@@ -1,6 +1,7 @@
 import React from "react"
 import { isLoggedIn } from "../services/auth"
 import { Link } from "gatsby"
+import Moment from "react-moment"
 import "./bootstrap.min.css"
 import "./layout.css"
 
@@ -24,7 +25,9 @@ const DocumentList = () => {
             </Link>
           </div>
           <div className="meta d-flex pt-2">
-            <div className="date">{data.date}</div>
+            <div className="date">
+              Published Date: <Moment format="YYYY/MM/DD">{data.date}</Moment>
+            </div>
           </div>
         </div>
       ))}
