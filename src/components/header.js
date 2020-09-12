@@ -1,6 +1,7 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import { FiHexagon } from "react-icons/fi"
+import { FaBookmark } from "react-icons/fa"
 import React from "react"
 
 const Header = ({ hive }) => (
@@ -13,6 +14,14 @@ const Header = ({ hive }) => (
             {hive.name}
           </Link>
         </div>
+        {!!hive.connections.stripe && (
+          <button className="subscribe">
+            <Link to="/subscribe">
+              <FaBookmark />
+              Subscribe to my newsletter
+            </Link>
+          </button>
+        )}
       </div>
     </div>
   </div>

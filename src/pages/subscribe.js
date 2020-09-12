@@ -6,15 +6,13 @@ import * as queryString from "query-string"
 import PropTypes from "prop-types"
 import { loadStripe } from "@stripe/stripe-js"
 import { navigate } from "gatsby"
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY)
-
+const hive = require("../../content/hive-config.json")
+const stripePromise = loadStripe(hive.connections.stripe.publicKey)
 function Subscribe({ pageContext, location }) {
-  if (process.env.STRIPE_PUBLIC_KEY === null) {
+  if (hive.connections.stripe.publicKey === null) {
     navigate("/")
   }
-  const [plan, setPlan] = useState(process.env.STRIPE_PLAN_ID)
+  const [plan, setPlan] = useState(hive.connections.stripe.defaultPlan)
   const { breadcrumb } = pageContext
   const { subscribed } = queryString.parse(location.search)
   const handleClick = async () => {
@@ -53,12 +51,15 @@ function Subscribe({ pageContext, location }) {
               <input
                 name="plan"
                 type="radio"
-                value={process.env.STRIPE_PLAN_ID}
-                checked={plan === process.env.STRIPE_PLAN_ID}
-                onClick={() => setPlan(process.env.STRIPE_PLAN_ID)}
+                value={hive.connections.stripe.defaultPlan}
+                checked={plan === hive.connections.stripe.defaultPlan}
+                onClick={() => setPlan(hive.connections.stripe.defaultPlan)}
               />
               <span>
-                Monthly - <strong>US${process.env.STRIPE_PLAN_PRICE}</strong>
+                Monthly -{" "}
+                <strong>
+                  US${hive.connections.stripe.defaultPlanPrice / 100}
+                </strong>
               </span>
             </label>
           </div>
