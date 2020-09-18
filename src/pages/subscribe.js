@@ -7,12 +7,15 @@ import PropTypes from "prop-types"
 import { loadStripe } from "@stripe/stripe-js"
 import { navigate } from "gatsby"
 const hive = require("../../content/hive-config.json")
-const stripePromise = loadStripe(hive.connections.stripe.publicKey)
 function Subscribe({ pageContext, location }) {
-  if (hive.connections.stripe.publicKey === null) {
+  const stripeOjb = hive.connections.stripe
+  if (stripeOjb === null || !stripeOjb.defaultPlan) {
     navigate("/")
+    return null
   }
-  const [plan, setPlan] = useState(hive.connections.stripe.defaultPlan)
+  console.log(stripeOjb.defaultPlan)
+  const stripePromise = loadStripe(stripeOjb.publicKey)
+  const [plan, setPlan] = useState(stripeOjb.defaultPlan)
   const { breadcrumb } = pageContext
   const { subscribed } = queryString.parse(location.search)
   const handleClick = async () => {
@@ -51,15 +54,12 @@ function Subscribe({ pageContext, location }) {
               <input
                 name="plan"
                 type="radio"
-                value={hive.connections.stripe.defaultPlan}
-                checked={plan === hive.connections.stripe.defaultPlan}
-                onClick={() => setPlan(hive.connections.stripe.defaultPlan)}
+                value={stripeOjb.defaultPlan}
+                checked={plan === stripeOjb.defaultPlan}
+                onClick={() => setPlan(stripeOjb.defaultPlan)}
               />
               <span>
-                Monthly -{" "}
-                <strong>
-                  US${hive.connections.stripe.defaultPlanPrice / 100}
-                </strong>
+                Monthly - <strong>US${stripeOjb.defaultPlanPrice / 100}</strong>
               </span>
             </label>
           </div>

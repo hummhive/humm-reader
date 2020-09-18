@@ -14,7 +14,7 @@ const Header = ({ hive }) => (
             {hive.name}
           </Link>
         </div>
-        {!!hive.connections.stripe && (
+        {!!hive.connections.stripe && hive.connections.stripe.defaultPlan && (
           <button className="subscribe">
             <Link to="/subscribe">
               <FaBookmark />
