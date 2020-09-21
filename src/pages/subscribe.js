@@ -5,17 +5,15 @@ import SEO from "../components/seo"
 import * as queryString from "query-string"
 import PropTypes from "prop-types"
 import { loadStripe } from "@stripe/stripe-js"
-import { navigate } from "gatsby"
 const hive = require("../../content/hive-config.json")
+const stripeOjb = hive.connections.stripe
 function Subscribe({ pageContext, location }) {
-  const stripeOjb = hive.connections.stripe
-  if (stripeOjb === null || !stripeOjb.defaultPlan) {
-    navigate("/")
+  if (stripeOjb === undefined && typeof window !== "undefined") {
+    window.location = "/"
     return null
   }
-  console.log(stripeOjb.defaultPlan)
-  const stripePromise = loadStripe(stripeOjb.publicKey)
-  const [plan, setPlan] = useState(stripeOjb.defaultPlan)
+  const stripePromise = loadStripe(stripeOjb && stripeOjb.publicKey)
+  const [plan, setPlan] = useState(stripeOjb && stripeOjb.defaultPlan)
   const { breadcrumb } = pageContext
   const { subscribed } = queryString.parse(location.search)
   const handleClick = async () => {
@@ -51,15 +49,12 @@ function Subscribe({ pageContext, location }) {
           </div>
           <div className="subscription-plan">
             <label>
-              <input
-                name="plan"
-                type="radio"
-                value={stripeOjb.defaultPlan}
-                checked={plan === stripeOjb.defaultPlan}
-                onClick={() => setPlan(stripeOjb.defaultPlan)}
-              />
+              <input name="plan" type="radio" value={plan} checked={plan} />
               <span>
-                Monthly - <strong>US${stripeOjb.defaultPlanPrice / 100}</strong>
+                Monthly -{" "}
+                <strong>
+                  US$ {stripeOjb && stripeOjb.defaultPlanPrice / 100}
+                </strong>
               </span>
             </label>
           </div>
