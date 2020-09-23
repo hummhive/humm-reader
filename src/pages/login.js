@@ -34,7 +34,6 @@ class Login extends React.Component {
     }
   }
   render() {
-    /*
     if (this.state.dataReady) {
       setTimeout(() => {
         navigate(`/`)
@@ -42,7 +41,7 @@ class Login extends React.Component {
     } else if (isLoggedIn()) {
       navigate(`/`)
     }
-    */
+
     const { jwt } = queryString.parse(this.props.location.search)
     return (
       <Layout>
