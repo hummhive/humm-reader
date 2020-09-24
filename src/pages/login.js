@@ -2,7 +2,7 @@ import React from "react"
 import { navigate } from "gatsby"
 import PropTypes from "prop-types"
 import * as queryString from "query-string"
-import { handleLogin, isLoggedIn } from "../services/auth"
+import { handleLogin } from "../services/auth"
 import { fetchContent } from "../services/fetch"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -34,14 +34,17 @@ class Login extends React.Component {
     }
   }
   render() {
-    if (this.state.dataReady) {
+    if (this.state.dataReady === true) {
       setTimeout(() => {
         navigate(`/`)
       }, 3000)
-    } else if (isLoggedIn()) {
+    } else if (
+      JSON.parse(
+        typeof window !== "undefined" && window.localStorage.getItem("data")
+      )
+    ) {
       navigate(`/`)
     }
-
     const { jwt } = queryString.parse(this.props.location.search)
     return (
       <Layout>
