@@ -15,14 +15,16 @@ const Header = ({ hive }) => (
             {hive.name}
           </Link>
         </div>
-        {!!hive.connections.stripe && hive.connections.stripe.defaultPlan && (
-          <button className="subscribe">
+        {!isLoggedIn() &&
+          !!hive.connections.stripe &&
+          hive.connections.stripe.defaultPlan && (
             <Link to="/subscribe">
-              <FaBookmark />
-              Subscribe to my newsletter
+              <button className="subscribe">
+                <FaBookmark />
+                Subscribe to my newsletter
+              </button>
             </Link>
-          </button>
-        )}
+          )}
         {isLoggedIn() && (
           <button className="authenticated">
             <FaLock /> Authenticated
