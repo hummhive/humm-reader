@@ -1,5 +1,6 @@
 node_modules
 public
+static
 .cache
 .DS_Store
 .env.development

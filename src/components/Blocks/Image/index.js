@@ -1,21 +1,15 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Loader from "../../Loader"
-import { Image, LoaderContainer } from "./styled"
+import { Image } from "./styled"
 
-const ImageBlock = ({ src }) => {
-  if (!src)
-    return (
-      <LoaderContainer>
-        <Loader isShowing size={56} />
-      </LoaderContainer>
-    )
+const ImageBlock = (props) => {
+  const src = `/${props.element.filename}`;
 
   return <Image src={src} />
 }
 
 ImageBlock.propTypes = {
-  src: PropTypes.string,
+  element: PropTypes.object,
 }
 
 export default ImageBlock
