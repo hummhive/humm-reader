@@ -11,6 +11,7 @@ class Login extends React.Component {
   state = {
     authed: false,
     dataReady: false,
+    error: false,
     jwt: "",
   }
 
@@ -21,7 +22,13 @@ class Login extends React.Component {
       this.setState({
         authed: true,
       })
-      await fetchContent(jwt)
+      let content = await fetchContent(jwt)
+      if (content === null) {
+        this.setState({
+          error: "No Lambda URL was specified",
+        })
+        return null
+      }
       this.setState({
         dataReady: true,
       })
@@ -40,7 +47,9 @@ class Login extends React.Component {
       }, 3000)
     } else if (
       JSON.parse(
-        typeof window !== "undefined" && window.localStorage.getItem("data")
+        typeof window !== "undefined" &&
+          window.localStorage.getItem("data") &&
+          !this.state.dataReady
       )
     ) {
       navigate(`/`)
@@ -54,7 +63,10 @@ class Login extends React.Component {
             <span>Invalid Request</span>
           ) : !this.state.authed ? (
             <span>Authenticating...</span>
-          ) : !this.state.authed || !this.state.dataReady ? (
+          ) : this.state.error ? (
+            <span>{this.state.error}</span>
+          ) : (!this.state.authed && !this.state.error) ||
+            this.state.dataReady === false ? (
             <span>Downloading Private Data...</span>
           ) : (
             <span>
