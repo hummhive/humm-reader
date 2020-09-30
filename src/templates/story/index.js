@@ -3,6 +3,7 @@ import Layout from "../../components/layout"
 import PropTypes from "prop-types"
 import { Breadcrumb } from "gatsby-plugin-breadcrumb"
 import { isLoggedIn } from "../../services/auth"
+import SEO from "../../components/seo"
 import DocumentBuilder from "../../components/documentBuilder"
 import { DocumentContainer, TitleContainer } from "./styled"
 
@@ -28,6 +29,7 @@ const Story = ({ pageContext, id, location }) => {
   const body = JSON.parse(theContent.body)
   return (
     <Layout>
+      <SEO title={theContent.title} />
       <Breadcrumb
         crumbs={breadcrumb}
         crumbSeparator=" / "
