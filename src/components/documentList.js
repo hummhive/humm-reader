@@ -54,7 +54,7 @@ const DocumentList = () => {
           </div>
           <div className="meta d-flex pt-2">
             <div className="date">
-              Published Date: <Moment format="YYYY/MM/DD">{data.date}</Moment>
+              Date Published: <Moment format="DD/MM/YYYY">{data.date}</Moment>
             </div>
           </div>
         </div>

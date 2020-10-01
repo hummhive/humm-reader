@@ -8,7 +8,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Header from "./header"
-import { FaPlusCircle } from "react-icons/fa"
 import "./bootstrap.min.css"
 import "./layout.css"
 const hiveJSON = require("../../content/hive-config.json")
@@ -19,10 +18,8 @@ const Layout = ({ children }) => {
       <Header hive={hiveJSON} />
       <main>{children}</main>
       <footer className="container">
-        {hiveJSON.name} is Powered by the Humm Reader <br />
-        <a className="start-creating" href="https://humm.earth">
-          <FaPlusCircle /> Start Creating
-        </a>
+        {hiveJSON.name} was created using the{" "}
+        <a href="https://humm.earth">hummHive app</a>. <br />
       </footer>
     </>
   )
