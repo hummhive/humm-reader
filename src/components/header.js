@@ -8,7 +8,7 @@ import React from "react"
 const Header = ({ hive }) => (
   <div className="wrapper">
     <div className="header">
-      <div className="container d-flex p-3">
+      <div className="container d-flex pt-3 pb-3">
         <div className="title">
           <Link to="/">
             <FiHexagon />

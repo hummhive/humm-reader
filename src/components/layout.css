@@ -626,9 +626,9 @@ body {
 }
 
 .post{
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 }
 
 .post:last-child{
@@ -661,10 +661,14 @@ text-transform: capitalize;
 margin: 0;
 }
 
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .post-date-month {
+	color: #333333;
+}
+
 .meta div {
 	padding-right: 10px;
   font-size: 14px;
-	color: #78757a;
+	color: #888888;
 }
 
 .header{
@@ -731,10 +735,10 @@ a{
   color: #78757a;
 }
 
-.post-title a {
-	color: #000;
-	font-weight: 800;
-	font-size: 28px;
+.post-title h1{
+font-weight: 900;
+font-size: 38px;
+margin-bottom: 0;
 }
 
 .subscribe {
@@ -783,10 +787,41 @@ a{
 	font-size: 12px;
 }
 
+.post-title a:hover{
+  color: #000;
+}
+
+footer .title {
+	border-bottom:  1px solid #d9d9d9;
+	max-width: 300px;
+	margin: auto;
+}
+
+.read-more svg, .meta svg {
+	position: relative;
+	top: -1px;
+}
+
+.read-more {
+	background: #a77fde;
+	padding: 8px 14px 8px 14px;
+	color: #fff;
+  font-weight: 700;
+	border-radius: 4px;
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+.read-more:hover{
+  color: #fff;
+  opacity: 0.85;
+  text-decoration: none;
+}
+
 footer{
-  margin: 100px auto 20px 0;
     font-size: 16px;
     padding-top: 20px;
+    background-color: #F2F2F2;
   text-align: center;
   border-top: 1px solid #f0f0f2;
 }
@@ -936,8 +971,13 @@ input[type="text"]::placeholder {
   transition: all 0.2s ease;
 }
 
-.title a {
-	font-size: 28px;
+.header .title a {
+	font-size: 50px;
+}
+
+footer .title a {
+	font-size: 50px;
+  color: #000;
 }
 
 .sr-checkbox-label input:focus ~ .sr-checkbox-check {

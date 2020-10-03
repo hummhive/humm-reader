@@ -14,7 +14,7 @@ export const fetchContent = async jwt => {
   }
   let data
   try {
-    let response = await fetch("https://856q8kjz6c.execute-api.us-east-1.amazonaws.com/", options)
+    let response = await fetch(lambda, options)
     data = await response.json()
     if (data === null || data === undefined || data === null) {
       throw new Error("No valid data received from the API.")
