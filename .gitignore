@@ -1,7 +1,5 @@
 node_modules
-public
-static
-.cache
+dist
 .DS_Store
-.env.development
-.env.production
+public
+.cache
