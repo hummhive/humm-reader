@@ -52,7 +52,6 @@ const DocumentList = () => {
               </Link>
             </h1>
           </div>
-          {console.log(data)}
           <div className="meta d-flex pt-1">
             <div className="date">
               <FiClock /> Date Published:{" "}

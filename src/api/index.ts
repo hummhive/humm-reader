@@ -1,7 +1,8 @@
 import { IWebsiteGenerator } from './api.types';
 import packageJson from '../../package.json';
 
-const { injectable, inject } = window.require('inversify');
+// @ts-ignore
+import { injectable, inject } from 'inversify';
 const { promisify } = window.require('util');
 const childProcess = window.require('child_process');
 const exec = promisify(childProcess.exec);
@@ -17,46 +18,48 @@ export default class HummReader implements IWebsiteGenerator {
   _hive;
   _taskQueue;
   _utils;
+  _publisher;
   
   constructor(
     @inject(Symbol.for("blob")) blob,
     @inject(Symbol.for("hive")) hive,
     @inject(Symbol.for("task-queue")) taskQueue,
-    @inject(Symbol.for("utils")) utils
+    @inject(Symbol.for("utils")) utils,
+    @inject(Symbol.for("@hummhive/publisher")) publisher
   ) {
     this._blob = blob;
     this._hive = hive;
     this._taskQueue = taskQueue;
     this._utils = utils;
+    this._publisher = publisher;
 
     this.outputPath = path.join(
-      utils.connectionsNodeModulesPath,
-      this.packageName,
+      utils.connectionsPath,
+      'hummhive-reader-gatsby',
       'public',
     );
   }
+
   async build(hiveId) {
     this._taskQueue.update('Generating the hummReader static website');
 
     const readerPath = path.resolve(this.outputPath, '..');
-    console.log(readerPath)
     const hive = await this._hive.get(hiveId);
 
-    ////////////////////////////// TODO ////////////////////////////////
-    // const {
-    //   documents,
-    // } = await window.api.connections.hummPublisher.document.list(hive.id);
+    const documents = await this._publisher.document.list(hive.id);
 
-    const documents = [];
     const pubicDocs = documents.filter(doc => doc.isPublic);
     const indexJSON = pubicDocs.map(d => ({
       title: d.title,
       slug: d.slug,
       date: d.publishedAt,
+      summary: JSON.parse(d.body).find(
+        e => e.type === 'p' && e.children[0].text !== '',
+      ).children[0].text,
     }));
 
-    const contentPath = path.join(readerPath, 'src', 'gatsby', 'content');
-    const staticPath = path.join(readerPath, 'src', 'gatsby', 'static');
+    const contentPath = path.join(readerPath, 'content');
+    const staticPath = path.join(readerPath, 'static');
 
     if (fs.existsSync(contentPath))
       fs.rmdirSync(contentPath, { recursive: true });
@@ -94,17 +97,18 @@ export default class HummReader implements IWebsiteGenerator {
       });
     });
 
-    const nodeModulesPathEscaped = this._utils.connectionsNodeModulesPath.replace(
+    const connectionsPathEscaped = this._utils.connectionsPath.replace(
       /(\s+)/g,
       '\\$1',
     );
 
-    let gatsbyPath = `${nodeModulesPathEscaped}/.bin/gatsby`;
+    let gatsbyPath = path.resolve(connectionsPathEscaped, 'hummhive-reader-gatsby', 'node_modules', '.bin', 'gatsby');
 
-    if (window.process.platform === 'win32') {
-      gatsbyPath = path.join(nodeModulesPathEscaped, 'gatsby.cmd');
-    }
-
+    // TODO
+    // if (window.process.platform === 'win32') {
+    //   gatsbyPath = path.join(connectionsPathEscaped, 'gatsby.cmd');
+    // }
+    
     await exec(`${gatsbyPath} clean`, {
       cwd: readerPath,
       env: window.process.env,

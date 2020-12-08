@@ -1,4 +1,4 @@
-import { React } from './singletonDependencies';
+import React from 'react';
 
 const propsMapper = mapTo => WrappedComponent => {
   const HOC = props => {

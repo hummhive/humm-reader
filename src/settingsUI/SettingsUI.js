@@ -1,15 +1,9 @@
-import { React } from '../utils/singletonDependencies';
-import { Container, ConnectedContainer, CheckmarkContainer } from './styled';
+import React from "react"
+import PropTypes from "prop-types"
+import { Container, ConnectedContainer, CheckmarkContainer } from "./styled"
+import { PrimaryButton, Checkmark } from "@hummhive/ui-elements"
 
-const { PrimaryButton, Checkmark } = window.require('humm-ui-elements');
-
-export default function SettingsUI({
-  websiteGeneratorAPI,
-  currentHive,
-  isConnected,
-  isConnecting,
-  connect,
-}) {
+export default function SettingsUI({ isConnected, isConnecting, connect }) {
   if (isConnected)
     return (
       <ConnectedContainer>
@@ -18,7 +12,7 @@ export default function SettingsUI({
         </CheckmarkContainer>
         <p>Successfully Connected</p>
       </ConnectedContainer>
-    );
+    )
 
   return (
     <Container>
@@ -26,5 +20,11 @@ export default function SettingsUI({
         Connect
       </PrimaryButton>
     </Container>
-  );
-};
+  )
+}
+
+SettingsUI.propTypes = {
+  isConnected: PropTypes.bool,
+  isConnecting: PropTypes.bool,
+  connect: PropTypes.func,
+}
