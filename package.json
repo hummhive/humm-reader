@@ -71,7 +71,9 @@
     "react-moment": "^1.0.0",
     "styled-components": "4.2.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "parse-domain": "^3.0.3"
+  },
   "peerDependencies": {
     "@hummhive/api-react-utils": "^0.0.2",
     "@hummhive/ui-elements": "^0.0.2",
@@ -86,7 +88,9 @@
     "capabilityType": "website-generator",
     "title": "humm Reader",
     "description": "A website generator for the humm Publisher",
-    "dependencies": ["@hummhive/publisher"],
+    "dependencies": [
+      "@hummhive/publisher"
+    ],
     "settingsDependencies": [],
     "settings": {},
     "version": "1.0.0",
