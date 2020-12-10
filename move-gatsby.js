@@ -7,7 +7,7 @@ const endPath = path.resolve(
   "..",
   "..",
   "..",
-  "hummhive-reader-gatsby"
+  "honeyworks-reader-gatsby"
 )
 
 const deleteFolderRecursive = function (pathToDel) {

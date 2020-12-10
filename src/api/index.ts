@@ -25,7 +25,7 @@ export default class HummReader implements IWebsiteGenerator {
     @inject(Symbol.for("hive")) hive,
     @inject(Symbol.for("task-queue")) taskQueue,
     @inject(Symbol.for("utils")) utils,
-    @inject(Symbol.for("@hummhive/publisher")) publisher
+    @inject(Symbol.for("@honeyworks/publisher")) publisher
   ) {
     this._blob = blob;
     this._hive = hive;
@@ -35,7 +35,7 @@ export default class HummReader implements IWebsiteGenerator {
 
     this.outputPath = path.join(
       utils.connectionsPath,
-      'hummhive-reader-gatsby',
+      'honeyworks-reader-gatsby',
       'public',
     );
   }
@@ -102,7 +102,7 @@ export default class HummReader implements IWebsiteGenerator {
       '\\$1',
     );
 
-    let gatsbyPath = path.resolve(connectionsPathEscaped, 'hummhive-reader-gatsby', 'node_modules', '.bin', 'gatsby');
+    let gatsbyPath = path.resolve(connectionsPathEscaped, 'honeyworks-reader-gatsby', 'node_modules', '.bin', 'gatsby');
 
     // TODO
     // if (window.process.platform === 'win32') {

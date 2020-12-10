@@ -1,5 +1,5 @@
 {
-  "name": "@hummhive/reader",
+  "name": "@honeyworks/reader",
   "version": "1.0.0",
   "description": "",
   "private": false,
@@ -12,7 +12,7 @@
     "build:gatsby": "gatsby build",
     "develop:gatsby": "gatsby develop",
     "clean:gatsby": "gatsby clean",
-    "postinstall": "node ./move-gatsby.js && cd ../../../hummhive-reader-gatsby && npm install"
+    "postinstall": "node ./move-gatsby.js && cd ../../../honeyworks-reader-gatsby && npm install"
   },
   "keywords": [],
   "author": "David Richard <david.richard@humm.earth>",
@@ -82,14 +82,14 @@
     "styled-components": "4.2.0"
   },
   "connectionDefinition": {
-    "packageName": "@hummhive/reader",
-    "packageLocation": "/Users/David/Projects/humm-reader/hummhive-reader-1.0.0.tgz",
+    "packageName": "@honeyworks/reader",
+    "packageLocation": "/Users/David/Projects/humm-reader/hummhihoneyworksve-reader-1.0.0.tgz",
     "connectionType": "capability",
     "capabilityType": "website-generator",
-    "title": "humm Reader",
-    "description": "A website generator for the humm Publisher",
+    "title": "Honeyworks Reader",
+    "description": "A website generator for the Honeyworks Publisher",
     "dependencies": [
-      "@hummhive/publisher"
+      "@honeyworks/publisher"
     ],
     "settingsDependencies": [],
     "settings": {},

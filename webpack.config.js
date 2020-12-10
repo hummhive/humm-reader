@@ -46,10 +46,6 @@ module.exports = {
         name: packageJSON.connectionDefinition.packageName,
       },
       filename: "remoteEntry.js",
-      remoteType: "umd",
-      remotes: {
-        hummHive: "hummHive",
-      },
       exposes: {
         "./SettingsUI": "./src/settingsUI",
         "./api": "./src/api",
