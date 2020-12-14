@@ -1,4 +1,7 @@
-# needed because we cannot have an empty schema file
-type dummyHoneyworksReader {
-  dummy: Boolean
+extend type ConnectionSettings {
+  domain: String
+}
+
+extend input ConnectionSettingsInput {
+  domain: String
 }
