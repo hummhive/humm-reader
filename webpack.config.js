@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const path = require("path")
 
 module.exports = {
-  // devtool: "eval-source-map",
+  devtool: "eval-source-map",
   module: {
     rules: [
       {
@@ -19,6 +19,11 @@ module.exports = {
         use: "ts-loader",
         exclude: /node_modules/,
       },
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: "graphql-tag/loader",
+      },
     ],
   },
   resolve: {
@@ -28,7 +33,9 @@ module.exports = {
       webpack: "webpack5",
     },
     fallback: {
+      "@apollo/client": false,
       "@hummhive/api-react-utils": false,
+      "@hummhive/local-state": false,
       "@hummhive/ui-elements": false,
       inversify: false,
       react: false,
@@ -51,7 +58,9 @@ module.exports = {
         "./api": "./src/api",
       },
       shared: {
+        "@apollo/client": {},
         "@hummhive/api-react-utils": {},
+        "@hummhive/local-state": {},
         "@hummhive/ui-elements": {},
         inversify: {},
         react: {

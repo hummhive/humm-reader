@@ -1,0 +1,4 @@
+# needed because we cannot have an empty schema file
+type dummyHoneyworksReader {
+  dummy: Boolean
+}

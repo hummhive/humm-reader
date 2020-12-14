@@ -1,0 +1,30 @@
+fragment hiveContent on Hive {
+  id
+  schemaSHA512
+  name
+  description
+  slug
+  topics
+  hiveType
+  owners
+  connections {
+    id
+    connectionType
+    capabilityType
+    title
+    description
+    packageName
+    packageLocation
+    dependencies,
+    settingsDependencies,
+    settings {
+      domain
+    }
+  }
+  hiveKeyPair {
+    public
+    secret
+  }
+  createdAt
+  updatedAt
+}

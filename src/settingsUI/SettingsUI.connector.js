@@ -1,10 +1,13 @@
+import { useQuery, useReactiveVar } from "@apollo/client"
 import propsMapper from "../utils/propsMapper"
 import SettingsUI from "./SettingsUI"
 import packageJson from "../../package.json"
 import { parseDomain } from "parse-domain"
 import { useAPI } from "@hummhive/api-react-utils"
+import { activeHiveIDVar, taskQueueVar } from "@hummhive/local-state"
+import { GET_HIVE } from "graphql/constants"
 
-const mapProps = ({ taskQueue, currentHive }) => {
+const mapProps = () => {
   const { packageName } = packageJson.connectionDefinition
   const websiteGeneratorAPI = useAPI(
     Symbol.for("website-generator"),
@@ -14,11 +17,17 @@ const mapProps = ({ taskQueue, currentHive }) => {
   const taskQueueAPI = useAPI(Symbol.for("task-queue"))
   const notificationsAPI = useAPI(Symbol.for("notifications"))
 
+  const taskQueue = useReactiveVar(taskQueueVar)
+  const { data: getHive } = useQuery(GET_HIVE, {
+    variables: { id: useReactiveVar(activeHiveIDVar) },
+  })
+
+  const hive = getHive && getHive.getHive
+
   const settings =
-    connectionsAPI.getConnectionSettings(
-      currentHive.connections,
-      packageName
-    ) || {}
+    (hive &&
+      connectionsAPI.getConnectionSettings(hive.connections, packageName)) ||
+    {}
 
   const taskQueueConnectId = `connect-humm-reader`
 
@@ -53,8 +62,8 @@ const mapProps = ({ taskQueue, currentHive }) => {
         domain,
       }
 
-      await connectionsAPI.connect(currentHive.id, connectionDefinition)
-      await websiteGeneratorAPI.build(currentHive.id)
+      await connectionsAPI.connect(hive.id, connectionDefinition)
+      await websiteGeneratorAPI.build(hive.id)
     } catch (err) {
       notificationsAPI.add(err.message || err, "error")
     }

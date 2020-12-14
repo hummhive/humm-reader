@@ -1,5 +1,6 @@
 import { IWebsiteGenerator } from './api.types';
 import packageJson from '../../package.json';
+import graphqlSchema from '../graphql';
 
 // @ts-ignore
 import { injectable, inject } from 'inversify';
@@ -19,25 +20,32 @@ export default class HummReader implements IWebsiteGenerator {
   _taskQueue;
   _utils;
   _publisher;
+  _graphqlAPI;
   
   constructor(
     @inject(Symbol.for("blob")) blob,
     @inject(Symbol.for("hive")) hive,
     @inject(Symbol.for("task-queue")) taskQueue,
     @inject(Symbol.for("utils")) utils,
-    @inject(Symbol.for("@honeyworks/publisher")) publisher
+    @inject(Symbol.for("@honeyworks/publisher")) publisher,
+    @inject(Symbol.for('graphql')) graphql,
   ) {
     this._blob = blob;
     this._hive = hive;
     this._taskQueue = taskQueue;
     this._utils = utils;
     this._publisher = publisher;
+    this._graphqlAPI = graphql;
 
     this.outputPath = path.join(
       utils.connectionsPath,
       'honeyworks-reader-gatsby',
       'public',
     );
+  }
+
+  init() {
+    this._graphqlAPI.registerSchema(graphqlSchema);
   }
 
   async build(hiveId) {

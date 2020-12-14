@@ -1,0 +1,7 @@
+#import "../fragments/hiveContentFragment.graphql"
+
+query getHive($id: String) {
+  getHive(id: $id) {
+    ...hiveContent
+  }
+}
