@@ -11,8 +11,7 @@
     "prepublishOnly": "npm run build",
     "build:gatsby": "gatsby build",
     "develop:gatsby": "gatsby develop",
-    "clean:gatsby": "gatsby clean",
-    "postinstall": "node ./move-gatsby.js && cd ../../../honeyworks-reader-gatsby && npm install"
+    "clean:gatsby": "gatsby clean"
   },
   "keywords": [],
   "author": "David Richard <david.richard@humm.earth>",
