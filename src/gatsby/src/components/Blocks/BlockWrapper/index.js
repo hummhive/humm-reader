@@ -7,7 +7,9 @@ function BlockWrapper({ attributes, element, children }) {
 
   return (
     <Container {...attributes} blockLayout={blockLayout}>
-      <BlockContainer className="container" id="block-container">{children}</BlockContainer>
+      <BlockContainer className="container" id="block-container">
+        {children}
+      </BlockContainer>
     </Container>
   )
 }

@@ -16,6 +16,7 @@ const Header = ({ hive }) => (
           </Link>
         </div>
         {!isLoggedIn() &&
+          !!hive.connections &&
           !!hive.connections.stripe &&
           hive.connections.stripe.defaultPlan && (
             <Link to="/subscribe">

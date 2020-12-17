@@ -6,14 +6,14 @@ import * as queryString from "query-string"
 import PropTypes from "prop-types"
 import { loadStripe } from "@stripe/stripe-js"
 const hive = require("../../content/hive-config.json")
-const stripeOjb = hive.connections.stripe
+const stripeOjb = hive.connections && hive.connections.stripe
 function Subscribe({ pageContext, location }) {
+  const [plan] = useState(stripeOjb && stripeOjb.defaultPlan)
+  const stripePromise = loadStripe(stripeOjb && stripeOjb.publicKey)
   if (stripeOjb === undefined && typeof window !== "undefined") {
     window.location = "/"
     return null
   }
-  const stripePromise = loadStripe(stripeOjb && stripeOjb.publicKey)
-  const [plan, setPlan] = useState(stripeOjb && stripeOjb.defaultPlan)
   const { breadcrumb } = pageContext
   const { subscribed } = queryString.parse(location.search)
   const handleClick = async () => {
