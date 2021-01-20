@@ -78,7 +78,7 @@
   "peerDependencies": {
     "@apollo/client": "^3.2.7",
     "@hummhive/api-react-utils": "^0.0.2",
-    "@hummhive//local-state": "^0.0.2",
+    "@hummhive/local-state": "^0.0.2",
     "@hummhive/ui-elements": "^0.0.2",
     "inversify": "^5.0.1",
     "react-router": "^5.0.0",
