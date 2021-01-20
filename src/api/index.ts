@@ -56,15 +56,19 @@ export default class HummReader implements IWebsiteGenerator {
 
     const documents = await this._publisher.document.list(hive.id);
 
-    const pubicDocs = documents.filter(doc => doc.isPublic);
-    const indexJSON = pubicDocs.map(d => ({
-      title: d.title,
-      slug: d.slug,
-      date: d.publishedAt,
-      summary: JSON.parse(d.body).find(
+    const publicDocs = documents.filter(doc => doc.isPublic);
+    const indexJSON = publicDocs.map(d => {
+      const summaryBlock = JSON.parse(d.body).find(
         e => e.type === 'p' && e.children[0].text !== '',
-      ).children[0].text,
-    }));
+      );
+
+      return {
+        title: d.title,
+        slug: d.slug,
+        date: d.publishedAt,
+        summary: summaryBlock && summaryBlock.children[0].text || '',
+      };
+    });
 
     const contentPath = path.join(readerPath, 'content');
     const staticPath = path.join(readerPath, 'static');
@@ -90,7 +94,7 @@ export default class HummReader implements IWebsiteGenerator {
       'utf-8',
     );
 
-    pubicDocs.forEach(doc => {
+    publicDocs.forEach(doc => {
       // copy the json for each doc
       fs.writeFileSync(
         path.join(contentPath, `${doc.slug}.json`),

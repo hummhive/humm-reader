@@ -1,6 +1,6 @@
 {
   "name": "@honeyworks/reader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "private": false,
   "module": "dist/index.js",
@@ -64,7 +64,7 @@
     "react-helmet": "^6.1.0",
     "react-icons": "^3.11.0",
     "react-loader-spinner": "^3.1.14",
-    "react-moment": "^1.0.0",
+    "react-moment": "^1.0.1",
     "styled-components": "4.2.0",
     "ts-loader": "^8.0.5",
     "typescript": "^4.0.3",
@@ -86,7 +86,7 @@
   },
   "connectionDefinition": {
     "packageName": "@honeyworks/reader",
-    "packageLocation": "/Users/David/Projects/humm-reader/honeyworks-reader-1.0.0.tgz",
+    "packageLocation": "@honeyworks/reader",
     "connectionType": "capability",
     "capabilityType": "website-generator",
     "title": "Honeyworks Reader",
@@ -96,7 +96,7 @@
     ],
     "settingsDependencies": [],
     "settings": {},
-    "version": "1.0.0",
+    "version": "1.0.1",
     "apiVersion": "0.1.0"
   }
 }
