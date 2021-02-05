@@ -1,5 +1,21 @@
 module.exports = {
   plugins: [
+    `gatsby-transformer-json`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `hive`,
+        path: `${__dirname}/config/hive`,
+      },
+    },
+    `gatsby-transformer-json`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `capabilities`,
+        path: `${__dirname}/config/capabilities`,
+      },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-create-client-paths`,

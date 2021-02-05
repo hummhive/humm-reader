@@ -5,6 +5,7 @@ html {
 }
 body {
   margin: 0;
+  background: #f7f9fb;
   font-family: 'Muli', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -672,9 +673,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, h1 a, h2 a, h3 a, h4 a, h5
 }
 
 .header{
-  margin-bottom: 60px;
   border-bottom: 1px solid #f0f0f0;
-  margin-top: 20px;
+  background: #fff;
+  margin-bottom: 40px;
 }
 
 a{
@@ -822,9 +823,7 @@ footer .title {
 footer{
     font-size: 16px;
     padding-top: 20px;
-    background-color: #F2F2F2;
   text-align: center;
-  border-top: 1px solid #f0f0f2;
 }
 
 footer .start-creating{

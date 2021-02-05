@@ -1,38 +1,61 @@
-import React, { useState } from "react"
+import React from "react"
 import Layout from "../components/layout"
 import { Breadcrumb } from "gatsby-plugin-breadcrumb"
 import SEO from "../components/seo"
 import * as queryString from "query-string"
 import PropTypes from "prop-types"
+import { useStaticQuery, graphql } from "gatsby"
 import { loadStripe } from "@stripe/stripe-js"
-const hive = require("../../content/hive-config.json")
-const stripeOjb = hive.connections && hive.connections.stripe
+
 function Subscribe({ pageContext, location }) {
-  const [plan] = useState(stripeOjb && stripeOjb.defaultPlan)
-  const stripePromise = loadStripe(stripeOjb && stripeOjb.publicKey)
-  if (stripeOjb === undefined && typeof window !== "undefined") {
-    window.location = "/"
-    return null
-  }
   const { breadcrumb } = pageContext
   const { subscribed } = queryString.parse(location.search)
+  const paymentData = useStaticQuery(graphql`
+    query {
+      capabilitiesJson {
+        paymentPlans {
+          id
+          unitAmount
+          provider
+        }
+      }
+      hiveJson {
+        signingPublicKey
+      }
+    }
+  `)
   const handleClick = async () => {
-    // When the customer clicks on the button, redirect them to Checkout.
-    const stripe = await stripePromise
-    await stripe.redirectToCheckout({
-      lineItems: [
-        {
-          price: plan, // Replace with the ID of your price
-          quantity: 1,
-        },
-      ],
-      mode: "subscription",
-      successUrl: `${location.origin}/subscribe?subscribed=true`,
-      cancelUrl: typeof window !== "undefined" ? window.location.href : "",
+    fetch("https://humm-stripe-dev.hummhive.workers.dev/checkout/session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        publicKey: paymentData.hiveJson.signingPublicKey,
+        priceId: paymentData.capabilitiesJson.paymentPlans.id,
+      }),
     })
-    // If `redirectToCheckout` fails due to a browser or network
-    // error, display the localized error message to your customer
-    // using `error.message`.
+      .then(response => response.json())
+      .then(async checkout => {
+        // 2. With Stripe Connect Worker's response, init Stripe
+        // and run Stripe Checkout
+        const stripePromise = loadStripe(checkout.stripePk, {
+          stripeAccount: checkout.account,
+        })
+        const stripe = await stripePromise
+        // 3. Run Stripe Checkout
+        try {
+          await stripe
+            .redirectToCheckout({
+              sessionId: checkout.sessionId,
+            })
+            .then(console.log)
+          // After the subscription signup succeeds, the customer is returned to your website at the success_url and a checkout.session.completed event is sent. You can check for this event in the Dashboard or with a webhook endpoint and the Stripe CLI.
+        } catch (e) {
+          alert(e.message)
+          console.log(e)
+        }
+      })
   }
   return (
     <Layout>
@@ -49,11 +72,17 @@ function Subscribe({ pageContext, location }) {
           </div>
           <div className="subscription-plan">
             <label>
-              <input name="plan" type="radio" value={plan} checked={plan} />
+              <input
+                name="plan"
+                type="radio"
+                value={paymentData.capabilitiesJson.paymentPlans.unitAmount}
+                checked
+              />
               <span>
                 Monthly -{" "}
                 <strong>
-                  US$ {stripeOjb && stripeOjb.defaultPlanPrice / 100}
+                  US$
+                  {paymentData.capabilitiesJson.paymentPlans.unitAmount}
                 </strong>
               </span>
             </label>
@@ -76,6 +105,7 @@ function Subscribe({ pageContext, location }) {
 }
 Subscribe.propTypes = {
   location: PropTypes.object,
+  hiveConfig: PropTypes.object,
   breadcrumb: PropTypes.object,
   pageContext: PropTypes.object,
 }

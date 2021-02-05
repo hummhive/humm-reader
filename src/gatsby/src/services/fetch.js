@@ -1,6 +1,6 @@
 export const fetchContent = async jwt => {
   // Fetch Content from the Lambda
-  const hive = require("../../content/hive-config.json")
+  const hive = ""
   const lambda =
     hive.connections.aws &&
     hive.connections.aws.lambdas.find(

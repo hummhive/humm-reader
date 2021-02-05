@@ -7,11 +7,20 @@
 
 import React from "react"
 import PropTypes from "prop-types"
+import { useStaticQuery, graphql } from "gatsby"
 import { Helmet } from "react-helmet"
 
 function SEO({ description, lang, meta, title }) {
-  const site = require("../../content/hive-config.json")
-  const metaDescription = description || site.description
+  const site = useStaticQuery(graphql`
+    query getSEOHiveData {
+      hiveJson {
+        name
+        description
+        owners
+      }
+    }
+  `)
+  const metaDescription = description || site.hiveJson.description
 
   return (
     <Helmet
@@ -19,7 +28,7 @@ function SEO({ description, lang, meta, title }) {
         lang,
       }}
       title={title}
-      titleTemplate={`%s | ${site.name}`}
+      titleTemplate={`%s | ${site.hiveJson.name}`}
       meta={[
         {
           name: `description`,
@@ -43,7 +52,7 @@ function SEO({ description, lang, meta, title }) {
         },
         {
           name: `twitter:creator`,
-          content: site.owners,
+          content: site.hiveJson.owners,
         },
         {
           name: `twitter:title`,
