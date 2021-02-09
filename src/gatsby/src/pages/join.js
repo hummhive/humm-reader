@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import PropTypes from "prop-types"
-import { test_addMember } from "../services/addMember"
+import addMember from "../services/addMember"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+
+// Uint8Array.prototype._isBuffer = true
 
 function Join() {
   const [username, setUsername] = useState("")
@@ -17,14 +19,15 @@ function Join() {
       }
     }
   `)
-  const handleSubmit = evt => {
-    test_addMember(
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    await addMember(
       hiveData.hiveJson.id,
       hiveData.hiveJson.encryptionPublicKey,
       username,
       email
     )
-    evt.preventDefault()
   }
   return (
     <Layout>
@@ -45,7 +48,7 @@ function Join() {
             <label>
               Email:
               <input
-                type="email"
+                // type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
               />
