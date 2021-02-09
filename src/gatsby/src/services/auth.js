@@ -1,20 +1,21 @@
 import { navigate } from "gatsby"
 
 export const isBrowser = () => typeof window !== "undefined"
-export const getJWT = () =>
-  isBrowser() && window.localStorage.getItem("jwt")
-    ? window.localStorage.getItem("jwt")
+export const getMemberKeys = () =>
+  isBrowser() && window.localStorage.getItem("memberKeys")
+    ? window.localStorage.getItem("memberKeys")
     : null
 
-const setJWT = jwt => window.localStorage.setItem("jwt", jwt)
+const setMemberKeys = memberKeys =>
+  window.localStorage.setItem("memberKeys", memberKeys)
 
-export const handleLogin = jwt => {
-  return setJWT(jwt)
+export const handleLogin = memberKeys => {
+  return setMemberKeys(memberKeys)
 }
 
 export const isLoggedIn = () => {
-  const jwt = getJWT()
-  return !!jwt
+  const memberKeys = getMemberKeys()
+  return !!memberKeys
 }
 
 export const logout = () => {
