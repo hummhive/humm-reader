@@ -37,7 +37,7 @@ export const DocumentProvider = ({ children }) => {
       }
       try {
         const str = await decrypt(keyPair, docs.saltpack)
-        setDocuments(JSON.parse(str))
+        setDocuments({ ...JSON.parse(str), ...docs.public })
       } catch (err) {
         // if decryption fails, user is not an active member
         setDocuments(docs.public)

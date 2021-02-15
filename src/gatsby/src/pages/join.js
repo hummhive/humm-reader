@@ -23,10 +23,8 @@ function Join() {
     e.preventDefault()
 
     await addMember(
-      // hiveData.hiveJson.id,
-      // hiveData.hiveJson.encryptionPublicKey,
-      "1611697100985-b023d9e6f86aa6dc",
-      "aCpubkx7SxDO108ltFVXIcfiJUpWfpld0lN+NdfBe3s=",
+      hiveData.hiveJson.id,
+      hiveData.hiveJson.encryptionPublicKey,
       username,
       email
     )
