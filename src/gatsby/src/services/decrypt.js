@@ -10,13 +10,18 @@ export default async (recipientKeyPair, data) => {
   readStream.push(null)
   const decryptStream = Decrypt(recipientKeyPair)
 
-  // // Async iterator over messagepack items from the encrypted file.
-  // eslint-disable-next-line no-restricted-syntax
-  for await (const item of MP.decodeStream(readStream)) {
-    decryptStream.write(item)
-  }
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
+    decryptStream.on("error", err => {
+      reject(err)
+    })
 
-  return new Promise(resolve => {
+    // // Async iterator over messagepack items from the encrypted file.
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const item of MP.decodeStream(readStream)) {
+      decryptStream.write(item)
+    }
+
     decryptStream.on("data", chunk => {
       chunks.push(Buffer.from(Array.from(chunk)))
     })
