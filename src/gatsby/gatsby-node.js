@@ -6,7 +6,6 @@
 // const path = require("path")
 // const fs = require("fs-extra")
 // const hiveConfig = require("./content/hive-config.json")
-const indexJSON = require("./content/index.json")
 
 // preserve other hive's build files while also deleting the hive build files
 // corresponding to the currently running build
@@ -59,16 +58,19 @@ exports.createPages = async ({ actions }) => {
 
   createPage({
     path: "/",
-    component: require.resolve("./src/templates/home"),
+    component: require.resolve("./src/app"),
   })
+}
 
-  indexJSON.forEach(element => {
-    createPage({
-      path: `/story/${element.slug}`,
-      component: require.resolve("./src/templates/story"),
-      context: {
-        pageContent: require(`./content/${element.slug}`),
-      },
-    })
-  })
+exports.onCreatePage = async ({ page, actions }) => {
+  const { createPage } = actions
+
+  // page.matchPath is a special key that's used for matching pages
+  // only on the client.
+  if (page.path.match(/^\/story/)) {
+    page.matchPath = "/story/:slug"
+
+    // Update the page.
+    createPage(page)
+  }
 }

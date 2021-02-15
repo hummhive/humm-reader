@@ -13,7 +13,9 @@ export default async (hiveId, hivePublicKey, username, email) => {
   try {
     const memberKeys = generateKeySet()
     const memberKeysUint8 = transformKeysToUint8(memberKeys)
-    console.log(memberKeysUint8)
+
+    localStorage.setItem("member-keys", JSON.stringify(memberKeys))
+
     const memberData = {
       hive: hiveId,
       username: `${username}#${generateDiscriminator()}`,
@@ -26,11 +28,11 @@ export default async (hiveId, hivePublicKey, username, email) => {
       email,
     }
 
-    const hivePubKey = tweetnaclUtil.decodeBase64(hivePublicKey)
+    const hivePubKeyUint8 = tweetnaclUtil.decodeBase64(hivePublicKey)
     const saltpack = await encrypt(
       JSON.stringify(memberData),
       memberKeysUint8.encryption,
-      [hivePubKey]
+      [hivePubKeyUint8]
     )
 
     const data = { saltpack }
