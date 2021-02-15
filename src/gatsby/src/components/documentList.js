@@ -7,7 +7,15 @@ import "./bootstrap.min.css"
 import "./layout.css"
 
 const DocumentList = () => {
-  const { loading, documents } = React.useContext(DocumentContext)
+  const { loading, documents: documentsObj } = React.useContext(DocumentContext)
+
+  const documents =
+    documentsObj &&
+    Object.keys(documentsObj)
+      .map(docSlug => {
+        return documentsObj[docSlug]
+      })
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
   return (
     <div className="container content">
@@ -15,8 +23,7 @@ const DocumentList = () => {
         <div className="loading-indicator">Fetching new content...</div>
       )}
       {documents &&
-        Object.keys(documents).map((docSlug, index) => {
-          const document = documents[docSlug]
+        documents.map((document, index) => {
           const summaryBlock = JSON.parse(document.body).find(
             e => e.type === "p" && e.children[0].text !== ""
           )
