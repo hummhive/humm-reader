@@ -76,7 +76,7 @@
     "webpack5": "npm:webpack@^5.10.0"
   },
   "dependencies": {
-    "@hummhive/saltpack": "^1.9.0",
+    "@hummhive/saltpack": "^1.10.0",
     "@msgpack/msgpack": "^2.3.0",
     "gatsby-transformer-json": "^2.10.0",
     "parse-domain": "^3.0.3",
