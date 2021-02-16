@@ -14,13 +14,14 @@ const path = window.require('path');
 export default class HummReader implements IWebsiteGenerator {
   packageName: string = packageJson.connectionDefinition.packageName;
   outputPath: string;
+  graphqlSchema = graphqlSchema;
 
   _blob;
   _hive;
   _taskQueue;
   _utils;
   _publisher;
-  _graphqlAPI;
+  _dataBridgeFactory;
   
   constructor(
     @inject(Symbol.for("blob")) blob,
@@ -29,13 +30,14 @@ export default class HummReader implements IWebsiteGenerator {
     @inject(Symbol.for("utils")) utils,
     @inject(Symbol.for("@honeyworks/publisher")) publisher,
     @inject(Symbol.for('graphql')) graphql,
+    @inject('Factory<data-bridge>') dataBridgeFactory,
   ) {
     this._blob = blob;
     this._hive = hive;
     this._taskQueue = taskQueue;
     this._utils = utils;
     this._publisher = publisher;
-    this._graphqlAPI = graphql;
+    this._dataBridgeFactory = dataBridgeFactory;
 
     this.outputPath = path.join(
       utils.connectionsPath,
@@ -44,33 +46,16 @@ export default class HummReader implements IWebsiteGenerator {
     );
   }
 
-  init() {
-    this._graphqlAPI.registerSchema(graphqlSchema);
-  }
-
   async build(hiveId) {
     this._taskQueue.update('Generating the hummReader static website');
 
     const readerPath = path.resolve(this.outputPath, '..');
     const hive = await this._hive.get(hiveId);
 
-    const documents = await this._publisher.document.list(hive.id);
+    const factory = this._dataBridgeFactory(hive.id);
+    const dataBridgeAPI = await factory();
 
-    const publicDocs = documents.filter(doc => doc.isPublic);
-    const indexJSON = publicDocs.map(d => {
-      const summaryBlock = JSON.parse(d.body).find(
-        e => e.type === 'p' && e.children[0].text !== '',
-      );
-
-      return {
-        title: d.title,
-        slug: d.slug,
-        date: d.publishedAt,
-        summary: summaryBlock && summaryBlock.children[0].text || '',
-      };
-    });
-
-    const contentPath = path.join(readerPath, 'content');
+    const contentPath = path.join(readerPath, 'config');
     const staticPath = path.join(readerPath, 'static');
 
     if (fs.existsSync(contentPath))
@@ -81,33 +66,18 @@ export default class HummReader implements IWebsiteGenerator {
     fs.mkdirSync(staticPath);
 
     // create an index of all documents
+    const coreData = {
+      hivePublicKey: hive.signingPublicKey,
+      addInboxDataEndpoint: dataBridgeAPI.getAddInboxDataEndpoint(),
+      listDataEndpoint: dataBridgeAPI.getListDataEndpoint(),
+      getDataEndpoint: dataBridgeAPI.getGetDataEndpoint(),
+    };
+  
     fs.writeFileSync(
-      path.join(contentPath, 'index.json'),
-      JSON.stringify(indexJSON),
+      path.join(contentPath, 'coreData.json'),
+      JSON.stringify(coreData),
       'utf-8',
     );
-
-    // pass gatsby information about the hive
-    fs.writeFileSync(
-      path.join(contentPath, 'hive-config.json'),
-      JSON.stringify(hive),
-      'utf-8',
-    );
-
-    publicDocs.forEach(doc => {
-      // copy the json for each doc
-      fs.writeFileSync(
-        path.join(contentPath, `${doc.slug}.json`),
-        JSON.stringify(doc),
-        'utf-8',
-      );
-
-      // copy blobs
-      doc.blobs.forEach(blob => {
-        const blobPath = this._blob.getPath(blob, hive.id);
-        fs.copyFileSync(blobPath, path.join(staticPath, blob));
-      });
-    });
 
     const connectionsPathEscaped = this._utils.connectionsPath.replace(
       /(\s+)/g,
@@ -115,11 +85,6 @@ export default class HummReader implements IWebsiteGenerator {
     );
 
     let gatsbyPath = path.resolve(connectionsPathEscaped, 'honeyworks-reader-gatsby', 'node_modules', '.bin', 'gatsby');
-
-    // TODO
-    // if (window.process.platform === 'win32') {
-    //   gatsbyPath = path.join(connectionsPathEscaped, 'gatsby.cmd');
-    // }
     
     await exec(`${gatsbyPath} clean`, {
       cwd: readerPath,

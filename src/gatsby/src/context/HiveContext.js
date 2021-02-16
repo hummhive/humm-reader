@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
-
-// TODO: de-hardcode these
-const dataBridgeGetDataUrl = "http://localhost:8787/getData"
-const hivePublicKey = "Bejij2geEMQwQRDRR/SArTKlvO8XqKO5zBeu7ZZODTw="
+import { useStaticQuery, graphql } from "gatsby"
 
 export const HiveContext = React.createContext({})
 
 export const HiveProvider = ({ children }) => {
+  const { coreDataJson: coreData } = useStaticQuery(graphql`
+    query {
+      coreDataJson {
+        hivePublicKey
+        getDataEndpoint
+      }
+    }
+  `)
   const [hive, setHive] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const fetchHive = async () => {
     setLoading(true)
 
-    const hive = await fetch(dataBridgeGetDataUrl, {
+    const hive = await fetch(coreData.getDataEndpoint, {
       method: "POST",
       body: JSON.stringify({
-        hivePublicKey,
+        hivePublicKey: coreData.hivePublicKey,
         collectionId: "hummHive",
         dataId: "default",
       }),

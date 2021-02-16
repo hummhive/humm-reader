@@ -54,14 +54,23 @@ module.exports = {
       },
       filename: "remoteEntry.js",
       exposes: {
-        "./SettingsUI": "./src/settingsUI",
+        "./ConfigUI": "./src/ConfigUI",
         "./api": "./src/api",
       },
       shared: {
         "@apollo/client": {},
-        "@hummhive/api-react-utils": {},
-        "@hummhive/local-state": {},
-        "@hummhive/ui-elements": {},
+        "@hummhive/api-react-utils": {
+          requiredVersion: ">=0.0.2",
+        },
+        "@hummhive/constants": {
+          requiredVersion: ">=0.0.2",
+        },
+        "@hummhive/local-state": {
+          requiredVersion: ">=0.0.2",
+        },
+        "@hummhive/ui-elements": {
+          requiredVersion: ">=0.0.2",
+        },
         inversify: {},
         react: {
           singleton: true,

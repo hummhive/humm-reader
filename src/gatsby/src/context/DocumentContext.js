@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import decrypt from "../services/decrypt"
-
-// TODO: de-hardcode these
-const dataBridgeGetDataUrl = "http://localhost:8787/getData"
-const hivePublicKey = "Bejij2geEMQwQRDRR/SArTKlvO8XqKO5zBeu7ZZODTw="
+import { useStaticQuery, graphql } from "gatsby"
 
 export const DocumentContext = React.createContext({})
 
 export const DocumentProvider = ({ children }) => {
+  const { coreDataJson: coreData } = useStaticQuery(graphql`
+    query {
+      coreDataJson {
+        hivePublicKey
+        getDataEndpoint
+      }
+    }
+  `)
+
   const [documents, setDocuments] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const fetchDocuments = async () => {
     setLoading(true)
 
-    const docs = await fetch(dataBridgeGetDataUrl, {
+    const docs = await fetch(coreData.getDataEndpoint, {
       method: "POST",
       body: JSON.stringify({
-        hivePublicKey,
+        hivePublicKey: coreData.hivePublicKey,
         collectionId: "honeyworksDocuments",
         dataId: "default",
       }),

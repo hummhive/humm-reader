@@ -1,11 +1,19 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
+import { useStaticQuery, graphql } from "gatsby"
 import { HiveContext } from "../context/HiveContext"
 import addMember from "../services/addMember"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 function Join() {
+  const { coreDataJson: coreData } = useStaticQuery(graphql`
+    query {
+      coreDataJson {
+        addInboxDataEndpoint
+      }
+    }
+  `)
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const { hive } = React.useContext(HiveContext)
@@ -19,6 +27,7 @@ function Join() {
       hive.id,
       hive.signingPublicKey,
       hive.encryptionPublicKey,
+      coreData.addInboxDataEndpoint,
       username,
       email
     )

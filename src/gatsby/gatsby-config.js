@@ -4,18 +4,18 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `hive`,
-        path: `${__dirname}/config/hive`,
+        name: `coreData`,
+        path: `${__dirname}/config/coreData`,
       },
     },
     `gatsby-transformer-json`,
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `capabilities`,
-        path: `${__dirname}/config/capabilities`,
-      },
-    },
+    // {
+    //   resolve: `gatsby-source-filesystem`,
+    //   options: {
+    //     name: `capabilities`,
+    //     path: `${__dirname}/config/capabilities`,
+    //   },
+    // },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-create-client-paths`,

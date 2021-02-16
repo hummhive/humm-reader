@@ -1,14 +1,17 @@
 import { useQuery, useReactiveVar } from "@apollo/client"
 import propsMapper from "../utils/propsMapper"
-import SettingsUI from "./SettingsUI"
+import ConfigUI from "./ConfigUI"
 import packageJson from "../../package.json"
 import { parseDomain } from "parse-domain"
 import { useAPI } from "@hummhive/api-react-utils"
-import { activeHiveIDVar, taskQueueVar } from "@hummhive/local-state"
-import { GET_HIVE } from "graphql/constants"
+import {
+  activeHiveIDVar,
+  taskQueueVar,
+  apolloOperationsVar,
+} from "@hummhive/local-state"
 
 const mapProps = () => {
-  const { packageName } = packageJson.connectionDefinition
+  const { packageName, id } = packageJson.connectionDefinition
   const websiteGeneratorAPI = useAPI(
     Symbol.for("website-generator"),
     packageName
@@ -18,16 +21,12 @@ const mapProps = () => {
   const notificationsAPI = useAPI(Symbol.for("notifications"))
 
   const taskQueue = useReactiveVar(taskQueueVar)
-  const { data: getHive } = useQuery(GET_HIVE, {
+  const { data: getHive } = useQuery(apolloOperationsVar().queries.GET_HIVE, {
     variables: { id: useReactiveVar(activeHiveIDVar) },
   })
 
   const hive = getHive && getHive.getHive
-
-  const settings =
-    (hive &&
-      connectionsAPI.getConnectionSettings(hive.connections, packageName)) ||
-    {}
+  const connectionConfig = hive && hive.connectionsConfig[id]
 
   const taskQueueConnectId = `connect-humm-reader`
 
@@ -57,12 +56,9 @@ const mapProps = () => {
   const _connect = async domain => {
     try {
       const { connectionDefinition } = packageJson
-      connectionDefinition.settings = {
-        ...connectionDefinition.settings,
-        domain,
-      }
-
       await connectionsAPI.connect(hive.id, connectionDefinition)
+      await connectionsAPI.updateConnectionConfig(hive.id, id, { domain })
+
       await websiteGeneratorAPI.build(hive.id)
     } catch (err) {
       notificationsAPI.add(err.message || err, "error")
@@ -72,8 +68,8 @@ const mapProps = () => {
   return {
     isConnecting: !!taskQueue.find(t => t.id === taskQueueConnectId),
     connect: addConnectToTaskQueue,
-    existingDomain: settings.domain,
+    existingDomain: connectionConfig && connectionConfig.domain,
   }
 }
 
-export default propsMapper(mapProps)(SettingsUI)
+export default propsMapper(mapProps)(ConfigUI)

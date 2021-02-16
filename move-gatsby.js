@@ -1,3 +1,5 @@
+if (process.env.NETLIFY) process.exit(1)
+
 const fs = require("fs")
 const path = require("path")
 
@@ -29,26 +31,6 @@ const deleteFolderRecursive = function (pathToDel) {
 deleteFolderRecursive(endPath)
 
 fs.renameSync(startPath, endPath)
-fs.copyFileSync(
-  path.resolve(__dirname, ".babelrc-gatsby"),
-  path.resolve(endPath, ".babelrc")
-)
-fs.copyFileSync(
-  path.resolve(__dirname, "gatsby-browser.js"),
-  path.resolve(endPath, "gatsby-browser.js")
-)
-fs.copyFileSync(
-  path.resolve(__dirname, "gatsby-config.js"),
-  path.resolve(endPath, "gatsby-config.js")
-)
-fs.copyFileSync(
-  path.resolve(__dirname, "gatsby-node.js"),
-  path.resolve(endPath, "gatsby-node.js")
-)
-fs.copyFileSync(
-  path.resolve(__dirname, "gatsby-ssr.js"),
-  path.resolve(endPath, "gatsby-ssr.js")
-)
 fs.copyFileSync(
   path.resolve(__dirname, "package.json"),
   path.resolve(endPath, "package.json")

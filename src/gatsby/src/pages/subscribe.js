@@ -10,20 +10,21 @@ import { loadStripe } from "@stripe/stripe-js"
 function Subscribe({ pageContext, location }) {
   const { breadcrumb } = pageContext
   const { subscribed } = queryString.parse(location.search)
-  const paymentData = useStaticQuery(graphql`
-    query {
-      capabilitiesJson {
-        paymentPlans {
-          id
-          unitAmount
-          provider
-        }
-      }
-      hiveJson {
-        signingPublicKey
-      }
-    }
-  `)
+  const paymentData = {}
+  // const paymentData = useStaticQuery(graphql`
+  //   query {
+  //     capabilitiesJson {
+  //       paymentPlans {
+  //         id
+  //         unitAmount
+  //         provider
+  //       }
+  //     }
+  //     hiveJson {
+  //       signingPublicKey
+  //     }
+  //   }
+  // `)
   const handleClick = async () => {
     fetch("https://humm-stripe-dev.hummhive.workers.dev/checkout/session", {
       method: "POST",
@@ -31,8 +32,8 @@ function Subscribe({ pageContext, location }) {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({
-        publicKey: paymentData.hiveJson.signingPublicKey,
-        priceId: paymentData.capabilitiesJson.paymentPlans.id,
+        publicKey: "paymentData.hiveJson.signingPublicKey",
+        priceId: "paymentData.capabilitiesJson.paymentPlans.id",
       }),
     })
       .then(response => response.json())
@@ -60,11 +61,11 @@ function Subscribe({ pageContext, location }) {
   return (
     <Layout>
       <SEO title="Subscribe" />
-      <Breadcrumb
+      {/* <Breadcrumb
         crumbs={breadcrumb.crumbs}
         crumbSeparator=" / "
         crumbLabel="Subscribe"
-      />
+      /> */}
       {!subscribed ? (
         <div className="container content">
           <div className="subscription-title">
@@ -75,14 +76,14 @@ function Subscribe({ pageContext, location }) {
               <input
                 name="plan"
                 type="radio"
-                value={paymentData.capabilitiesJson.paymentPlans.unitAmount}
+                value={"paymentData.capabilitiesJson.paymentPlans.unitAmount"}
                 checked
               />
               <span>
                 Monthly -{" "}
                 <strong>
                   US$
-                  {paymentData.capabilitiesJson.paymentPlans.unitAmount}
+                  {"paymentData.capabilitiesJson.paymentPlans.unitAmount"}
                 </strong>
               </span>
             </label>

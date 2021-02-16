@@ -13,6 +13,8 @@ import { HiveContext } from "../context/HiveContext"
 function SEO({ description, lang, meta, title }) {
   const { hive } = React.useContext(HiveContext)
 
+  if (!hive) return null
+
   const metaDescription = description || hive.description
 
   return (

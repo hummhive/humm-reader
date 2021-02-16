@@ -1,7 +1,20 @@
-extend type ConnectionSettings {
-  domain: String
+extend type Connections {
+  honeyworksReader: Connection
+}
+extend input ConnectionsInput {
+  honeyworksReader: ConnectionInput
 }
 
-extend input ConnectionSettingsInput {
+extend type ConnectionsConfig {
+  honeyworksReader: HoneyworksReaderConfig
+}
+extend input ConnectionsConfigInput {
+  honeyworksReader: HoneyworksReaderConfigInput
+}
+
+type HoneyworksReaderConfig {
+  domain: String
+}
+input HoneyworksReaderConfigInput {
   domain: String
 }

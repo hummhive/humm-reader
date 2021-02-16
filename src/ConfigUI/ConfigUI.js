@@ -11,7 +11,7 @@ import {
 } from "./styled"
 import { PrimaryButton, TextInput, Checkmark } from "@hummhive/ui-elements"
 
-export default function SettingsUI({
+export default function ConfigUI({
   isConnected,
   isConnecting,
   connect,
@@ -58,7 +58,7 @@ export default function SettingsUI({
   )
 }
 
-SettingsUI.propTypes = {
+ConfigUI.propTypes = {
   isConnected: PropTypes.bool,
   isConnecting: PropTypes.bool,
   connect: PropTypes.func,

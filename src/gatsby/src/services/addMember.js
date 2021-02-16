@@ -4,21 +4,15 @@ import transformKeysToUint8 from "./transformKeysToUint8"
 import encrypt from "./encrypt"
 import generateDiscriminator from "./generateDiscriminator"
 
-// TODO: de-hardcode these
-const dataBridgeUrl = "http://localhost:8787/addInboxData"
-
 export default async (
   hiveId,
   hiveSigPublicKey,
   hiveEncryptPublicKey,
+  addInboxDataEndpoint,
   username,
   email
 ) => {
   try {
-    // TODO: remove
-    hiveSigPublicKey = "Bejij2geEMQwQRDRR/SArTKlvO8XqKO5zBeu7ZZODTw="
-    hiveEncryptPublicKey = "aCpubkx7SxDO108ltFVXIcfiJUpWfpld0lN+NdfBe3s="
-
     const memberKeys = generateKeySet()
     const memberKeysUint8 = transformKeysToUint8(memberKeys)
 
@@ -44,7 +38,7 @@ export default async (
 
     const data = { saltpack }
 
-    await fetch(dataBridgeUrl, {
+    await fetch(addInboxDataEndpoint, {
       method: "POST",
       body: JSON.stringify({
         hivePublicKey: hiveSigPublicKey,
