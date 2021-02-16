@@ -9,7 +9,6 @@
     "watch": "node ./webpack5.js watch",
     "build": "node ./webpack5.js",
     "prepublishOnly": "npm run build",
-    "postinstall": "node ./move-gatsby.js && cd ../../../honeyworks-reader-gatsby && npm i",
     "build:gatsby": "gatsby build",
     "develop:gatsby": "gatsby develop",
     "clean:gatsby": "gatsby clean"
