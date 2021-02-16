@@ -97,7 +97,7 @@
   "connectionDefinition": {
     "id": "honeyworksReader",
     "packageName": "@honeyworks/reader",
-    "packageLocation": "/Users/David/Projects/humm-reader/honeyworks-reader-1.0.1.tgz",
+    "packageLocation": "@honeyworks/reader",
     "connectionType": "capability",
     "capabilityType": "website-generator",
     "title": "Honeyworks Reader",
