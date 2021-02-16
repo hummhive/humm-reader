@@ -1,19 +1,14 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
+import { HiveContext } from "../context/HiveContext"
 import { isLoggedIn } from "../services/auth"
 import { FiHexagon } from "react-icons/fi"
 import { FaBookmark, FaLock } from "react-icons/fa"
-import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
 const Header = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      hiveJson {
-        name
-      }
-    }
-  `)
+  const { hive } = React.useContext(HiveContext)
+
   return (
     <div className="wrapper">
       <div className="header">
@@ -21,7 +16,7 @@ const Header = () => {
           <div className="title">
             <Link to="/">
               <FiHexagon />
-              {data.hiveJson.name}
+              {(hive && hive.name) || ""}
             </Link>
           </div>
           {!isLoggedIn() && (

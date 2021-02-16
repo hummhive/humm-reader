@@ -6,11 +6,19 @@ import generateDiscriminator from "./generateDiscriminator"
 
 // TODO: de-hardcode these
 const dataBridgeUrl = "http://localhost:8787/addInboxData"
-const memberSchemaSHA512 =
-  "e043cb112209dd38a46d662fa22b4ef0ad92fd8883c1e173e5bc6b960cdcbc518c64968883faaf141b52b2c490f902d0293dc9945db6c14f10c1bdf509eb2c5c"
 
-export default async (hiveId, hivePublicKey, username, email) => {
+export default async (
+  hiveId,
+  hiveSigPublicKey,
+  hiveEncryptPublicKey,
+  username,
+  email
+) => {
   try {
+    // TODO: remove
+    hiveSigPublicKey = "Bejij2geEMQwQRDRR/SArTKlvO8XqKO5zBeu7ZZODTw="
+    hiveEncryptPublicKey = "aCpubkx7SxDO108ltFVXIcfiJUpWfpld0lN+NdfBe3s="
+
     const memberKeys = generateKeySet()
     const memberKeysUint8 = transformKeysToUint8(memberKeys)
 
@@ -28,11 +36,10 @@ export default async (hiveId, hivePublicKey, username, email) => {
       email,
     }
 
-    const hivePubKeyUint8 = tweetnaclUtil.decodeBase64(hivePublicKey)
     const saltpack = await encrypt(
       JSON.stringify(memberData),
       memberKeysUint8.encryption,
-      [hivePubKeyUint8]
+      [tweetnaclUtil.decodeBase64(hiveEncryptPublicKey)]
     )
 
     const data = { saltpack }
@@ -40,8 +47,8 @@ export default async (hiveId, hivePublicKey, username, email) => {
     await fetch(dataBridgeUrl, {
       method: "POST",
       body: JSON.stringify({
-        hivePublicKey,
-        collectionId: memberSchemaSHA512,
+        hivePublicKey: hiveSigPublicKey,
+        collectionId: "hummhiveMember",
         data,
       }),
       headers: {

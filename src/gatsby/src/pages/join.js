@@ -1,30 +1,24 @@
 import React, { useState } from "react"
-import { useStaticQuery, graphql } from "gatsby"
 import PropTypes from "prop-types"
+import { HiveContext } from "../context/HiveContext"
 import addMember from "../services/addMember"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-// Uint8Array.prototype._isBuffer = true
-
 function Join() {
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
-  const hiveData = useStaticQuery(graphql`
-    query {
-      hiveJson {
-        id
-        signingPublicKey
-        encryptionPublicKey
-      }
-    }
-  `)
+  const { hive } = React.useContext(HiveContext)
+
+  if (!hive) return null
+
   const handleSubmit = async e => {
     e.preventDefault()
 
     await addMember(
-      hiveData.hiveJson.id,
-      hiveData.hiveJson.encryptionPublicKey,
+      hive.id,
+      hive.signingPublicKey,
+      hive.encryptionPublicKey,
       username,
       email
     )

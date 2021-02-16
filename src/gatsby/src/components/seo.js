@@ -7,20 +7,13 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
 import { Helmet } from "react-helmet"
+import { HiveContext } from "../context/HiveContext"
 
 function SEO({ description, lang, meta, title }) {
-  const site = useStaticQuery(graphql`
-    query getSEOHiveData {
-      hiveJson {
-        name
-        description
-        owners
-      }
-    }
-  `)
-  const metaDescription = description || site.hiveJson.description
+  const { hive } = React.useContext(HiveContext)
+
+  const metaDescription = description || hive.description
 
   return (
     <Helmet
@@ -28,7 +21,7 @@ function SEO({ description, lang, meta, title }) {
         lang,
       }}
       title={title}
-      titleTemplate={`%s | ${site.hiveJson.name}`}
+      titleTemplate={`%s | ${hive.name}`}
       meta={[
         {
           name: `description`,
@@ -52,7 +45,7 @@ function SEO({ description, lang, meta, title }) {
         },
         {
           name: `twitter:creator`,
-          content: site.hiveJson.owners,
+          content: hive.owners,
         },
         {
           name: `twitter:title`,

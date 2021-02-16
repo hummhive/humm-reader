@@ -101,10 +101,9 @@
     "title": "Honeyworks Reader",
     "description": "A website generator for the Honeyworks Publisher",
     "dependencies": [
-      "@honeyworks/publisher"
+      "@honeyworks/publisher",
+      "data-bridge"
     ],
-    "settingsDependencies": [],
-    "settings": {},
     "version": "1.0.1",
     "apiVersion": "0.1.0"
   }

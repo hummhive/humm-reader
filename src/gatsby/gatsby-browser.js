@@ -6,7 +6,10 @@
 
 import React from "react"
 import { DocumentProvider } from "./src/context/DocumentContext"
+import { HiveProvider } from "./src/context/HiveContext"
 
 export const wrapRootElement = ({ element }) => (
-  <DocumentProvider>{element}</DocumentProvider>
+  <HiveProvider>
+    <DocumentProvider>{element}</DocumentProvider>
+  </HiveProvider>
 )
