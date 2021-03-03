@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react"
 import PropTypes from "prop-types"
 import { navigate } from "gatsby"
 import generatePrivateKeys from "../services/generatePrivateKeys"
 import { Link } from "gatsby"
 import { FiHexagon, FiCopy } from "react-icons/fi"
+import { CopyToClipboard } from "react-copy-to-clipboard"
 import { isLoggedIn } from "../services/auth"
 import { useStaticQuery, graphql } from "gatsby"
 import { HiveContext } from "../context/HiveContext"
@@ -22,19 +23,11 @@ function Join() {
   const [username, setUsername] = useState("")
   const [joinedSuccess, setJoinedSuccess] = useState(false)
   const [memberKeys, setMemberKeys] = useState("")
-  const [copySuccess, setCopySuccess] = useState('');
-  const textAreaRef = useRef(null);
+  const [copySuccess, setCopySuccess] = useState("COPY")
   const [email, setEmail] = useState("")
   const { hive } = React.useContext(HiveContext)
 
   if (!hive) return null
-
-  function copyToClipboard(e) {
-  textAreaRef.current.select();
-  document.execCommand('copy');
-  e.target.focus();
-  setCopySuccess('Copied!');
-  }
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -48,14 +41,18 @@ function Join() {
       email
     )
 
-    if(response.status === "Success"){
-      setJoinedSuccess(true);
-      setMemberKeys(generatePrivateKeys(response.memberKeys.signing.secret, response.memberKeys.encryption.secret))
+    if (response.status === "Success") {
+      setJoinedSuccess(true)
+      setMemberKeys(
+        generatePrivateKeys(
+          response.memberKeys.signing.secret,
+          response.memberKeys.encryption.secret
+        )
+      )
     }
   }
   if (
-    !joinedSuccess &&
-    isLoggedIn() ||
+    (!joinedSuccess && isLoggedIn()) ||
     JSON.parse(
       typeof window !== "undefined" && window.localStorage.getItem("data")
     )
@@ -85,65 +82,83 @@ function Join() {
                   Hive
                 </h2>
                 {!joinedSuccess && (
-                <>
-                <p className="login-subtitle">
-                  Already a member? <Link to="/login">Login</Link>
-                </p>
-                <div className="mb-3">
-                  <input
-                    type="email"
-                    className="login-form-shadow"
-                    placeholder="Email address"
-                    id="exampleInputEmail1"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    aria-describedby="emailHelp"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="exampleInputEmail1"
-                    className="form-label"
-                  ></label>
-                  <input
-                    type="text"
-                    className="login-form-shadow"
-                    id="username"
-                    placeholder="Username"
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                    aria-describedby="emailHelp"
-                  />
-                </div>
-                <input
-                  type="submit"
-                  className="btn btn-highlight d-grid gap-2 w-50 mt-2"
-                  value="Join Hive"
-                />
-              </>
-              )}
-              {joinedSuccess && (
-            <>
-            <p className="login-subtitle">
-              You have succesfully signed up, please store the keys of below in a safe place as you will need them in order to login with your account.
-            </p>
-            <div className="d-flex flex-row mb-3">
-              <label
-                htmlFor="exampleInputEmail1"
-                className="form-label"
-              ></label>
-              <input
-                type="text"
-                className="login-form-shadow"
-                id="memberKeys"
-                value={memberKeys}
-                aria-describedby="emailHelp"
-              />
-            <div><FiCopy className="copyKey" /><span style={{fontSize: "10px", textAlign: "center"}}>COPY</span></div>
-            </div>
-            <Link className="btn btn-highlight d-grid gap-2 w-50 mt-2" to="/">Continue</Link>
-            </>
-            )}
+                  <>
+                    <p className="login-subtitle">
+                      Already a member? <Link to="/login">Login</Link>
+                    </p>
+                    <div className="mb-3">
+                      <input
+                        type="email"
+                        className="login-form-shadow"
+                        placeholder="Email address"
+                        id="exampleInputEmail1"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        aria-describedby="emailHelp"
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor="exampleInputEmail1"
+                        className="form-label"
+                      ></label>
+                      <input
+                        type="text"
+                        className="login-form-shadow"
+                        id="username"
+                        placeholder="Username"
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        aria-describedby="emailHelp"
+                      />
+                    </div>
+                    <input
+                      type="submit"
+                      className="btn btn-highlight d-grid gap-2 w-50 mt-2"
+                      value="Join Hive"
+                    />
+                  </>
+                )}
+                {joinedSuccess && (
+                  <>
+                    <p className="login-subtitle">
+                      You have succesfully signed up, please store the keys of
+                      below in a safe place as you will need them in order to
+                      login with your account.
+                    </p>
+                    <div className="d-flex flex-row mb-3">
+                      <label
+                        htmlFor="exampleInputEmail1"
+                        className="form-label"
+                      ></label>
+                      <input
+                        type="text"
+                        className="login-form-shadow"
+                        id="memberKeys"
+                        value={memberKeys}
+                        aria-describedby="emailHelp"
+                      />
+                      <div>
+                        <CopyToClipboard
+                          text={memberKeys}
+                          onCopy={() => setCopySuccess("COPIED")}
+                        >
+                          <span
+                            style={{ fontSize: "10px", textAlign: "center" }}
+                          >
+                            <FiCopy className="copyKey" /> {copySuccess}
+                          </span>
+                        </CopyToClipboard>
+                      </div>
+                    </div>
+                    <Link
+                      className="btn btn-highlight d-grid gap-2 w-50 mt-2"
+                      to="/"
+                    >
+                      Continue
+                    </Link>
+                  </>
+                )}
               </form>
             </div>
           </div>

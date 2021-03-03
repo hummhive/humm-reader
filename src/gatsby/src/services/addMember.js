@@ -50,8 +50,7 @@ export default async (
       },
     }).then(response => response.json())
 
-    return {status: response, memberKeys: memberKeys};
-
+    return { status: response, memberKeys: memberKeys }
   } catch (err) {
     console.log(err.message || JSON.stringify(err), "error")
     throw err

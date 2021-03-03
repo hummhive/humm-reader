@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "gatsby"
 import Moment from "react-moment"
-import { FiChevronRight, FiClock } from "react-icons/fi"
+import { FiClock } from "react-icons/fi"
 import { DocumentContext } from "../context/DocumentContext"
 import "./bootstrap.min.css"
 import "./layout.css"
@@ -44,8 +44,7 @@ const DocumentList = () => {
                   ? summary.substr(0, 350 - 1) + "..."
                   : summary}
               </div>
-              <div className="entry-footer pt-3">
-              </div>
+              <div className="entry-footer pt-3"></div>
             </div>
           )
         })}

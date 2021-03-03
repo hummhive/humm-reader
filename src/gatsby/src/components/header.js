@@ -7,7 +7,6 @@ import React from "react"
 
 const Header = () => {
   const { hive } = React.useContext(HiveContext)
-
   return (
     <div className="wrapper">
       <div className="header mt-3">
@@ -42,7 +41,7 @@ const Header = () => {
                 <li className="nav-item">
                   {isLoggedIn() && (
                     <Link to="/" onClick={logout}>
-                        Logout
+                      Logout
                     </Link>
                   )}
                 </li>

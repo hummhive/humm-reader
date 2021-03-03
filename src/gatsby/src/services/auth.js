@@ -20,16 +20,16 @@ export const isLoggedIn = () => {
 }
 
 export const login = encryptionPublicKey => {
-  const authedUser = loginService(encryptionPublicKey);
-  if(authedUser){
-  localStorage.setItem("member-keys", JSON.stringify(authedUser))
-  return navigate(`/`, { state: { callback: true }})
-  }else{
-  return false;
+  const authedUser = loginService(encryptionPublicKey)
+  if (authedUser) {
+    localStorage.setItem("member-keys", JSON.stringify(authedUser))
+    return navigate(`/`, { state: { callback: true } })
+  } else {
+    return false
   }
 }
 
 export const logout = () => {
   localStorage.removeItem("member-keys")
-  navigate(`/`, { state: { callback: true }})
+  navigate(`/`, { state: { callback: true } })
 }

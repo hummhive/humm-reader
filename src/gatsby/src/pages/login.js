@@ -7,8 +7,6 @@ import { FiHexagon } from "react-icons/fi"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-// Uint8Array.prototype._isBuffer = true
-
 function Login() {
   const [encryptionPublicKey, setEncryptionPublicKey] = useState("")
   const [error, setError] = useState(false)
@@ -19,12 +17,12 @@ function Login() {
   const handleSubmit = e => {
     e.preventDefault()
     const authedUser = login(encryptionPublicKey)
-    if(authedUser){
+    if (authedUser) {
       return
-    }else{
+    } else {
       setError("Please double-check if your key pair is correct!")
     }
-    }
+  }
 
   if (
     isLoggedIn() ||

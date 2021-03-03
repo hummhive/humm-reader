@@ -8,17 +8,11 @@ import DefaultNoHive from "./components/DefaultNoHive"
 
 const Home = () => {
   const { hive } = React.useContext(HiveContext)
-
   // TODO: display loader while loading the hive?
-
   return (
     <Layout header={!hive && "no"}>
       <Router>
-        {(!window.localStorage.getItem("cached-hive") || !hive ? (
-          <DefaultNoHive path="/" />
-        ) : (
-          <DocumentList path="/" />
-        ))}
+        {!hive ? <DefaultNoHive path="/" /> : <DocumentList path="/" />}
       </Router>
     </Layout>
   )
