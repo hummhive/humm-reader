@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import decrypt from "../services/decrypt"
+import { globalHistory } from '@reach/router'
 import { useStaticQuery, graphql } from "gatsby"
 
 export const DocumentContext = React.createContext({})
@@ -60,6 +61,12 @@ export const DocumentProvider = ({ children }) => {
   useEffect(() => {
     fetchDocuments()
   }, [])
+
+  useEffect(() => {
+  return globalHistory.listen(({ action }) => {
+    if (action === 'PUSH') fetchDocuments()
+  })
+}, [])
 
   return (
     <DocumentContext.Provider value={{ loading, documents }}>

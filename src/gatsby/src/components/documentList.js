@@ -7,7 +7,7 @@ import "./bootstrap.min.css"
 import "./layout.css"
 
 const DocumentList = () => {
-  const { loading, documents: documentsObj } = React.useContext(DocumentContext)
+  const { documents: documentsObj } = React.useContext(DocumentContext)
 
   const documents =
     documentsObj &&
@@ -19,9 +19,6 @@ const DocumentList = () => {
 
   return (
     <div className="container content">
-      {loading && (
-        <div className="loading-indicator">Fetching new content...</div>
-      )}
       {documents &&
         documents.map((document, index) => {
           const summaryBlock = JSON.parse(document.body).find(
@@ -48,9 +45,6 @@ const DocumentList = () => {
                   : summary}
               </div>
               <div className="entry-footer pt-3">
-                <Link className="read-more" to={`/story/${document.slug}`}>
-                  Read More <FiChevronRight />
-                </Link>
               </div>
             </div>
           )

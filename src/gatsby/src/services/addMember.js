@@ -38,7 +38,7 @@ export default async (
 
     const data = { saltpack }
 
-    await fetch(addInboxDataEndpoint, {
+    const response = await fetch(addInboxDataEndpoint, {
       method: "POST",
       body: JSON.stringify({
         hivePublicKey: hiveSigPublicKey,
@@ -48,7 +48,10 @@ export default async (
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    }).then(response => response.json())
+
+    return {status: response, memberKeys: memberKeys};
+
   } catch (err) {
     console.log(err.message || JSON.stringify(err), "error")
     throw err
