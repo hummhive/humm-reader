@@ -30,7 +30,7 @@ function Login() {
       typeof window !== "undefined" && window.localStorage.getItem("data")
     )
   ) {
-    // navigate(`/`)
+    navigate(`/`)
   }
   return (
     <Layout header="no">
