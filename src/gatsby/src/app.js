@@ -1,10 +1,10 @@
-import React, { useState } from "react"
+import React from "react"
 import { Router } from "@reach/router"
 import PropTypes from "prop-types"
 import { HiveContext } from "./context/HiveContext"
 import Layout from "./components/layout"
 import DocumentList from "./components/documentList"
-import DefaultNoHive from "./components/DefaultNoHive"
+import DefaultNoHive from "./components/defaultNoHive"
 
 const Home = () => {
   const { hive } = React.useContext(HiveContext)
