@@ -21,24 +21,34 @@ export const DocumentProvider = ({ children }) => {
   const fetchDocuments = async () => {
     setLoading(true)
 
-    const docs = await fetch(coreData.getDataEndpoint, {
-      method: "POST",
-      body: JSON.stringify({
-        hivePublicKey: coreData.hivePublicKey,
-        collectionId: "honeyworksDocuments",
-        dataId: "default",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(res => res.json())
+    const publicDocs = await fetch(
+      `${coreData.getDataEndpoint}?hivePublicKey=${coreData.hivePublicKey}&collectionId=honeyworks&dataId=allPublicDocuments`,
+      { method: "GET" }
+    ).then(async res => {
+      if (!res.ok) {
+        const err = await res.json()
+        console.error(err)
+        return []
+      }
+      const buffer = await res.arrayBuffer()
+      const string = new TextDecoder().decode(buffer)
 
-    const memberKeysString = localStorage.getItem("member-keys")
+      return (string && JSON.parse(string)) || []
+    })
 
-    // if there are no member keys, use the public data
-    if (!memberKeysString) setDocuments(docs.public)
-    // if there are member keys, try to decrypt the private data
-    else {
+    const privateDocs = await fetch(
+      `${coreData.getDataEndpoint}?hivePublicKey=${coreData.hivePublicKey}&collectionId=honeyworks&dataId=allPrivateDocuments`,
+      { method: "GET" }
+    ).then(async res => {
+      if (!res.ok) {
+        const err = await res.json()
+        console.error(err)
+        return []
+      }
+      const buffer = await res.arrayBuffer()
+      if (buffer.byteLength === 0) return []
+
+      const memberKeysString = localStorage.getItem("member-keys")
       const memberKeys = JSON.parse(memberKeysString)
       const keyPair = {
         publicKey: Uint8Array.from(memberKeys.encryption.public),
@@ -46,13 +56,15 @@ export const DocumentProvider = ({ children }) => {
       }
 
       try {
-        const str = await decrypt(keyPair, docs.saltpack)
-        setDocuments({ ...JSON.parse(str), ...docs.public })
+        const str = await decrypt(keyPair, buffer)
+        return JSON.parse(str)
       } catch (err) {
         // if decryption fails, user is not an active member
-        setDocuments(docs.public)
+        return []
       }
-    }
+    })
+
+    setDocuments([...privateDocs, ...publicDocs])
 
     setLoading(false)
   }

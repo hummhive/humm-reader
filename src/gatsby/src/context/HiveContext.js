@@ -19,20 +19,25 @@ export const HiveProvider = ({ children }) => {
   const fetchHive = async () => {
     setLoading(true)
 
-    const hive = await fetch(coreData.getDataEndpoint, {
-      method: "POST",
-      body: JSON.stringify({
-        hivePublicKey: coreData.hivePublicKey,
-        collectionId: "hummHive",
-        dataId: "default",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(res => res.json())
+    const hive = await fetch(
+      `${coreData.getDataEndpoint}?hivePublicKey=${coreData.hivePublicKey}&collectionId=hummhive&dataId=hive`,
+      { method: "GET" }
+    ).then(async res => {
+      if (!res.ok) {
+        const err = await res.json()
+        console.error(err)
+        return null
+      }
+      const buffer = await res.arrayBuffer()
+      const string = new TextDecoder().decode(buffer)
 
-    setHive(hive.public)
-    localStorage.setItem("cached-hive", JSON.stringify(hive.public))
+      return (string && JSON.parse(string)) || null
+    })
+
+    if (hive) {
+      setHive(hive.public)
+      localStorage.setItem("cached-hive", JSON.stringify(hive.public))
+    }
 
     setLoading(false)
   }

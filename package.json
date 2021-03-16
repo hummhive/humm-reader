@@ -1,6 +1,6 @@
 {
   "name": "@honeyworks/reader",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "private": false,
   "module": "dist/index.js",
@@ -105,8 +105,7 @@
       "@honeyworks/publisher",
       "data-bridge"
     ],
-    "configDependencies": [],
-    "version": "1.0.2",
+    "version": "1.0.3",
     "apiVersion": "0.1.0"
   }
 }
