@@ -36,13 +36,15 @@ export default async (
       [tweetnaclUtil.decodeBase64(hiveEncryptPublicKey)]
     )
 
-    await fetch(
+    const res = await fetch(
       `${addInboxDataEndpoint}?hivePublicKey=${hiveSigPublicKey}&collectionId=hummhiveMember`,
       {
         method: "POST",
         body: saltpack,
       }
-    )
+    ).then(res => res.json())
+
+    return { status: res, memberKeys: memberKeys }
   } catch (err) {
     console.log(err.message || JSON.stringify(err), "error")
     throw err

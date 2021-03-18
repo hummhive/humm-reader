@@ -24,18 +24,19 @@ export default function useBlob(filename) {
     ).then(async res => {
       if (!res.ok) {
         const err = await res.json()
-        setError(err)
+        setError(err.message)
         return null
       }
-      const buffer = await res.arrayBuffer()
-      if (buffer.byteLength === 0) return null
+      const arrayBuffer = await res.arrayBuffer()
+      if (arrayBuffer.byteLength === 0) return null
 
-      const saltpackTestBytes = buffer.slice(4, 12)
+      const saltpackTestBytes = arrayBuffer.slice(0, 20)
       const saltpackTestString = new TextDecoder().decode(saltpackTestBytes)
-      const isSaltpack = saltpackTestString === "saltpack"
+      const isSaltpack = saltpackTestString.includes("saltpack")
 
       if (!isSaltpack) {
-        setBlob(URL.createObjectURL(new Blob([buffer])))
+        setBlob(URL.createObjectURL(new Blob([arrayBuffer])))
+        setIsLoading(false)
         return
       }
 
@@ -47,7 +48,7 @@ export default function useBlob(filename) {
       }
 
       try {
-        const decryptedBuffer = await decrypt(keyPair, buffer)
+        const decryptedBuffer = await decrypt(keyPair, arrayBuffer)
         setBlob(URL.createObjectURL(new Blob([decryptedBuffer])))
       } catch (err) {
         // if decryption fails, user is not an active member

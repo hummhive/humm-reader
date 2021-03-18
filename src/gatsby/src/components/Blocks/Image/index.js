@@ -10,7 +10,7 @@ const ImageBlock = props => {
   if (error)
     return (
       <LoaderContainer>
-        <p>error</p>
+        <p>{error}</p>
       </LoaderContainer>
     )
 
