@@ -46,6 +46,7 @@ export const DocumentProvider = ({ children }) => {
         return []
       }
       const buffer = await res.arrayBuffer()
+
       if (buffer.byteLength === 0) return []
 
       const memberKeysString = localStorage.getItem("member-keys")
@@ -56,7 +57,9 @@ export const DocumentProvider = ({ children }) => {
       }
 
       try {
-        const str = await decrypt(keyPair, buffer)
+        const decryptedBuffer = await decrypt(keyPair, buffer)
+        const str = new TextDecoder().decode(decryptedBuffer)
+
         return JSON.parse(str)
       } catch (err) {
         // if decryption fails, user is not an active member
@@ -64,7 +67,7 @@ export const DocumentProvider = ({ children }) => {
       }
     })
 
-    setDocuments([...privateDocs, ...publicDocs])
+    setDocuments({ ...privateDocs, ...publicDocs })
 
     setLoading(false)
   }

@@ -1,5 +1,6 @@
 module.exports = {
   plugins: [
+    "gatsby-plugin-workerize-loader",
     `gatsby-transformer-json`,
     {
       resolve: `gatsby-source-filesystem`,

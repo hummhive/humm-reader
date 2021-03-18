@@ -23,7 +23,7 @@ export default async (dataString, senderKeyPair, recipientPublicKeys) => {
     })
   })
 
-  const encryptedData = Array.from(Buffer.concat(encryptedChunks))
+  const encryptedData = Buffer.concat(encryptedChunks)
 
   return encryptedData
 }

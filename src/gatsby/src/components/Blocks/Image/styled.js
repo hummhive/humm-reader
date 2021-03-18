@@ -18,7 +18,7 @@ export const LoaderContainer = styled.div`
   justify-content: center;
   width: 100%;
   height: 100px;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.06);
   margin: 16px 0;
   outline: solid 0px ${props => props.theme.secondaryVivid};
   outline-width: ${props => (props.isFocused ? "4px" : "0px")};
