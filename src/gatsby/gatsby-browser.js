@@ -7,6 +7,8 @@
 import React from "react"
 import { DocumentProvider } from "./src/context/DocumentContext"
 import { HiveProvider } from "./src/context/HiveContext"
+import "@fontsource/nunito" // Defaults to weight 400.
+import "@fontsource/nunito/900.css" // Weight 500.
 
 export const wrapRootElement = ({ element }) => (
   <HiveProvider>

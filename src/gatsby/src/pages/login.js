@@ -1,82 +1,89 @@
-import React from "react"
-import { navigate } from "gatsby"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
-import * as queryString from "query-string"
-import { handleLogin } from "../services/auth"
-import { fetchContent } from "../services/fetch"
+import { navigate, Link } from "gatsby"
+import { HiveContext } from "../context/HiveContext"
+import { isLoggedIn, login } from "../services/auth"
+import { FiHexagon } from "react-icons/fi"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-class Login extends React.Component {
-  state = {
-    authed: false,
-    dataReady: false,
-    error: false,
-    jwt: "",
+function Login() {
+  const [encryptionPublicKey, setEncryptionPublicKey] = useState("")
+  const [error, setError] = useState(false)
+  const { hive } = React.useContext(HiveContext)
+
+  if (!hive) return null
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    const authedUser = login(encryptionPublicKey)
+    if (authedUser) {
+      return
+    } else {
+      setError("Please double-check if your key pair is correct!")
+    }
   }
 
-  async componentDidMount() {
-    const { jwt } = queryString.parse(this.props.location.search)
-    if (jwt) {
-      handleLogin(jwt)
-      this.setState({
-        authed: true,
-      })
-      let content = await fetchContent(jwt)
-      if (content === null) {
-        this.setState({
-          error: "No Lambda URL was specified",
-        })
-        return null
-      }
-      this.setState({
-        dataReady: true,
-      })
-    } else {
-      this.setState({
-        authed: false,
-        dataReady: false,
-        jwt: null,
-      })
-    }
-  }
-  render() {
-    if (this.state.dataReady === true) {
-      setTimeout(() => {
-        navigate(`/`)
-      }, 3000)
-    } else if (
-      JSON.parse(
-        typeof window !== "undefined" &&
-          window.localStorage.getItem("data") &&
-          !this.state.dataReady
-      )
-    ) {
-      navigate(`/`)
-    }
-    const { jwt } = queryString.parse(this.props.location.search)
-    return (
-      <Layout>
-        <SEO title="Home" />
-        <div className="container content center margin">
-          {!jwt ? (
-            <span>Invalid Request</span>
-          ) : !this.state.authed ? (
-            <span>Authenticating...</span>
-          ) : this.state.error ? (
-            <span>{this.state.error}</span>
-          ) : (!this.state.authed && !this.state.error) ||
-            this.state.dataReady === false ? (
-            <span>Downloading Private Data...</span>
-          ) : (
-            <span>
-              Done!... now you will be redirected back to the home page!
-            </span>
-          )}
-        </div>
-      </Layout>
+  if (
+    isLoggedIn() ||
+    JSON.parse(
+      typeof window !== "undefined" && window.localStorage.getItem("data")
     )
+  ) {
+    navigate(`/`)
   }
+  return (
+    <Layout header="no">
+      <SEO title="Home" />
+      <div className="d-flex w-100 min-vh-100 login-page">
+        <div className="custombg"></div>
+        <div className="d-flex flex-column flex-grow-1 mt-5 text-center align-items-center">
+          <div style={{ maxWidth: "500px", width: "100%" }} className="mx-auto">
+            <h1>
+              <Link className="hiveName" to="/">
+                <FiHexagon />
+              </Link>
+            </h1>
+            <div>
+              <form onSubmit={handleSubmit}>
+                <h2 className="mt-5 pt-5">
+                  Sign in to{" "}
+                  <span className="highlight">
+                    {(hive && hive.name) || ""}
+                    {"'s"}
+                  </span>{" "}
+                  Hive
+                </h2>
+                {error && (
+                  <div className="alert alert-danger" role="alert">
+                    {error}
+                  </div>
+                )}
+                <p className="login-subtitle">
+                  Not a member yet? <Link to="/join">Join this hive</Link>
+                </p>
+                <div className="mb-3 mt-3">
+                  <input
+                    type="text"
+                    className="login-form-shadow"
+                    id="encryptionPublicKey"
+                    placeholder="Enter Your Private Key"
+                    value={encryptionPublicKey}
+                    onChange={e => setEncryptionPublicKey(e.target.value)}
+                  />
+                </div>
+                <input
+                  type="submit"
+                  className="btn btn-highlight d-grid gap-2 w-50 mt-2"
+                  value="Access"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
+  )
 }
 Login.propTypes = {
   location: PropTypes.object,

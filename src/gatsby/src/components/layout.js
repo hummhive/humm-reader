@@ -11,23 +11,18 @@ import Header from "./header"
 import "./bootstrap.min.css"
 import "./layout.css"
 
-const Layout = ({ children }) => {
+const Layout = ({ children, header }) => {
   return (
     <>
-      <Header />
+      {header !== "no" && <Header />}
       <main>{children}</main>
-      <footer className="pt-1 pb-1 mt-5">
-        <div className="container">
-          Published with the <a href="https://humm.earth">hummHive app</a>. All
-          Rights Reserved.
-        </div>
-      </footer>
     </>
   )
 }
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  header: PropTypes.node.isRequired,
 }
 
 export default Layout

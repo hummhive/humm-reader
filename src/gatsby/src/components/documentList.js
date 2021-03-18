@@ -1,13 +1,13 @@
 import React from "react"
 import { Link } from "gatsby"
 import Moment from "react-moment"
-import { FiChevronRight, FiClock } from "react-icons/fi"
+import { FiClock } from "react-icons/fi"
 import { DocumentContext } from "../context/DocumentContext"
 import "./bootstrap.min.css"
 import "./layout.css"
 
 const DocumentList = () => {
-  const { loading, documents: documentsObj } = React.useContext(DocumentContext)
+  const { documents: documentsObj } = React.useContext(DocumentContext)
 
   const documents =
     documentsObj &&
@@ -19,9 +19,6 @@ const DocumentList = () => {
 
   return (
     <div className="container content">
-      {loading && (
-        <div className="loading-indicator">Fetching new content...</div>
-      )}
       {documents &&
         documents.map((document, index) => {
           const summaryBlock = JSON.parse(document.body).find(
@@ -47,11 +44,7 @@ const DocumentList = () => {
                   ? summary.substr(0, 350 - 1) + "..."
                   : summary}
               </div>
-              <div className="entry-footer pt-3">
-                <Link className="read-more" to={`/story/${document.slug}`}>
-                  Read More <FiChevronRight />
-                </Link>
-              </div>
+              <div className="entry-footer pt-3"></div>
             </div>
           )
         })}

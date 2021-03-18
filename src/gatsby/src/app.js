@@ -1,20 +1,27 @@
 import React from "react"
 import { Router } from "@reach/router"
 import PropTypes from "prop-types"
-import { HiveContext } from "./context/HiveContext"
 import Layout from "./components/layout"
 import DocumentList from "./components/documentList"
+import DefaultNoHive from "./components/defaultNoHive"
+import { useStaticQuery, graphql } from "gatsby"
 
 const Home = () => {
-  const { hive } = React.useContext(HiveContext)
-
-  // TODO: display loader while loading the hive?
-  if (!hive) return null
-
+  const { coreDataJson: coreData } = useStaticQuery(graphql`
+    query {
+      coreDataJson {
+        hivePublicKey
+      }
+    }
+  `)
   return (
-    <Layout>
+    <Layout header={!coreData.hivePublicKey && "no"}>
       <Router>
-        <DocumentList path="/" />
+        {!coreData.hivePublicKey ? (
+          <DefaultNoHive path="/" />
+        ) : (
+          <DocumentList path="/" />
+        )}
       </Router>
     </Layout>
   )
