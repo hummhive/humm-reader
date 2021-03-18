@@ -37,36 +37,40 @@ export const DocumentProvider = ({ children }) => {
       return (string && JSON.parse(string)) || []
     })
 
-    const privateDocs = await fetch(
-      `${coreData.getDataEndpoint}?hivePublicKey=${coreData.hivePublicKey}&collectionId=honeyworks&dataId=allPrivateDocuments`,
-      { method: "GET" }
-    ).then(async res => {
-      if (!res.ok) {
-        const err = await res.json()
-        console.error(err)
-        return []
-      }
-      const buffer = await res.arrayBuffer()
+    let privateDocs = {}
+    const memberKeysString = localStorage.getItem("member-keys")
 
-      if (buffer.byteLength === 0) return []
+    if (memberKeysString) {
+      privateDocs = await fetch(
+        `${coreData.getDataEndpoint}?hivePublicKey=${coreData.hivePublicKey}&collectionId=honeyworks&dataId=allPrivateDocuments`,
+        { method: "GET" }
+      ).then(async res => {
+        if (!res.ok) {
+          const err = await res.json()
+          console.error(err)
+          return []
+        }
+        const buffer = await res.arrayBuffer()
 
-      const memberKeysString = localStorage.getItem("member-keys")
-      const memberKeys = JSON.parse(memberKeysString)
-      const keyPair = {
-        publicKey: Uint8Array.from(memberKeys.encryption.public),
-        secretKey: Uint8Array.from(memberKeys.encryption.secret),
-      }
+        if (buffer.byteLength === 0) return []
 
-      try {
-        const decryptedBuffer = await decrypt(keyPair, buffer)
-        const str = new TextDecoder().decode(decryptedBuffer)
+        const memberKeys = JSON.parse(memberKeysString)
+        const keyPair = {
+          publicKey: Uint8Array.from(memberKeys.encryption.public),
+          secretKey: Uint8Array.from(memberKeys.encryption.secret),
+        }
 
-        return JSON.parse(str)
-      } catch (err) {
-        // if decryption fails, user is not an active member
-        return []
-      }
-    })
+        try {
+          const decryptedBuffer = await decrypt(keyPair, buffer)
+          const str = new TextDecoder().decode(decryptedBuffer)
+
+          return JSON.parse(str)
+        } catch (err) {
+          // if decryption fails, user is not an active member
+          return []
+        }
+      })
+    }
 
     setDocuments({ ...privateDocs, ...publicDocs })
 
