@@ -1,1 +1,1 @@
-{"hivePublicKey":"","addInboxDataEndpoint":"","listDataEndpoint":"","getDataEndpoint":""}
+{"hivePublicKey":"u8nBJeapNOvMPTggICxGj3G59/xya3NsKpIwAfg0Hys=","addInboxDataEndpoint":"http://localhost:8787/addInboxData","listDataEndpoint":"http://localhost:8787/listData","getDataEndpoint":"http://localhost:8787/getData"}
