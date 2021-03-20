@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import Loader from "../../Loader"
 import { useBlob } from "../../../hooks"
-import { Image, LoaderContainer } from "./styled"
+import { Image, Container } from "./styled"
 
 const path = require("path")
 
@@ -13,23 +13,31 @@ const ImageBlock = props => {
 
   const { blob, isLoading, error } = useBlob(variantname)
 
-  if (error)
-    return (
-      <LoaderContainer>
-        <p>{error}</p>
-      </LoaderContainer>
-    )
+  const [height, setHeight] = React.useState(null)
+  const ref = React.useRef(null)
 
-  if (isLoading)
-    return (
-      <LoaderContainer>
-        <Loader size={32} isShowing color="rgba(0, 0, 0, 0.3)" />
-      </LoaderContainer>
-    )
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (!props.element.aspectRatio) return
+      setHeight(ref.current.offsetWidth / props.element.aspectRatio)
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+
+    return () => window.removeEventListener("resize", handleResize)
+  }, [ref.current])
 
   const src = props.element.src || blob
 
-  return <Image src={src} />
+  return (
+    <Container ref={ref} height={height}>
+      {(error && <p>{error}</p>) ||
+        (isLoading && (
+          <Loader size={48} isShowing color="rgba(0, 0, 0, 0.3)" />
+        )) || <Image src={src} />}
+    </Container>
+  )
 }
 
 ImageBlock.propTypes = {
