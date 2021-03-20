@@ -23,8 +23,8 @@ export default function useBlob(filename) {
       { method: "GET", cache: "force-cache" }
     ).then(async res => {
       if (!res.ok) {
-        const err = await res.json()
-        setError(err.message)
+        const err = await res.text()
+        setError(err)
         return null
       }
       const arrayBuffer = await res.arrayBuffer()
