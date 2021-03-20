@@ -4,8 +4,14 @@ import Loader from "../../Loader"
 import { useBlob } from "../../../hooks"
 import { Image, LoaderContainer } from "./styled"
 
+const path = require("path")
+
 const ImageBlock = props => {
-  const { blob, isLoading, error } = useBlob(props.element.filename)
+  const extension = path.extname(props.element.filename)
+  const filename = path.basename(props.element.filename, extension)
+  const variantname = `${filename}-large${extension}`
+
+  const { blob, isLoading, error } = useBlob(variantname)
 
   if (error)
     return (

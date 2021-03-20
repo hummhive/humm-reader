@@ -20,7 +20,7 @@ export default function useBlob(filename) {
 
     await fetch(
       `${coreData.getDataEndpoint}?hivePublicKey=${coreData.hivePublicKey}&collectionId=blob&dataId=${filename}`,
-      { method: "GET" }
+      { method: "GET", cache: "force-cache" }
     ).then(async res => {
       if (!res.ok) {
         const err = await res.json()
