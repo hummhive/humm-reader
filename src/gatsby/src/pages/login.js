@@ -11,7 +11,6 @@ function Login() {
   const [encryptionPublicKey, setEncryptionPublicKey] = useState("")
   const [error, setError] = useState(false)
   const { hive } = React.useContext(HiveContext)
-
   if (!hive) return null
 
   const handleSubmit = e => {

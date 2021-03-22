@@ -40,6 +40,13 @@ const Header = () => {
                 </li>
                 <li className="nav-item">
                   {isLoggedIn() && (
+                    <Link className="btn btn-highlight" to="/checkout">
+                      Subscribe
+                    </Link>
+                  )}
+                </li>
+                <li className="nav-item">
+                  {isLoggedIn() && (
                     <Link to="/" onClick={logout}>
                       Logout
                     </Link>
