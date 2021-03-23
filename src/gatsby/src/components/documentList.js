@@ -19,7 +19,7 @@ const DocumentList = () => {
 
   return (
     <div className="container content">
-      {documents &&
+      {documents ? (
         documents.map((document, index) => {
           const summaryBlock = JSON.parse(document.body).find(
             e => e.type === "p" && e.children[0].text !== ""
@@ -47,7 +47,17 @@ const DocumentList = () => {
               <div className="entry-footer pt-3"></div>
             </div>
           )
-        })}
+        })
+      ) : (
+        <div className="text-center mt-5 pt-5">
+          <h1>Welcome to Honeyworks Website Creator</h1>
+          <p className="lead pt-3">
+            It seems like you have not published anything into your website yet.
+            In order to get started, try to publish a story as
+            "Public" using the Honeyworks Publisher.
+          </p>
+        </div>
+      )}
     </div>
   )
 }
