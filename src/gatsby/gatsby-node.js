@@ -53,15 +53,6 @@ exports.onCreateBabelConfig = p => {
   }
 }
 
-exports.createPages = async ({ actions }) => {
-  const { createPage } = actions
-
-  createPage({
-    path: "/",
-    component: require.resolve("./src/app"),
-  })
-}
-
 exports.onCreatePage = async ({ page, actions }) => {
   const { createPage } = actions
 
