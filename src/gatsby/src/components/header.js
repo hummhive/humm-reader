@@ -1,6 +1,6 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
-import { isLoggedIn, logout } from "../services/auth"
+import { isLoggedIn, logout, getBillingPortal } from "../services/auth"
 import { HiveContext } from "../context/HiveContext"
 import { FiHexagon } from "react-icons/fi"
 import React from "react"
@@ -39,10 +39,18 @@ const Header = () => {
                   )}
                 </li>
                 <li className="nav-item">
-                  {isLoggedIn() && (
+                  {isLoggedIn() && !getBillingPortal() && (
                     <Link className="btn btn-highlight" to="/checkout">
                       Subscribe
                     </Link>
+                  )}
+                  {isLoggedIn() && getBillingPortal() && (
+                    <a
+                      href={window.localStorage.getItem("paymentBillingPortal")}
+                      className="btn btn-highlight"
+                    >
+                      Account
+                    </a>
                   )}
                 </li>
                 <li className="nav-item">

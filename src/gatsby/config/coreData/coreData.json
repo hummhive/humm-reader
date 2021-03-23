@@ -1,1 +1,1 @@
-{"hivePublicKey":null,"addInboxDataEndpoint":null,"listDataEndpoint":null,"getDataEndpoint":null}
+{"hivePublicKey":"qdxIGztTu+KkP76mtr81BfDYsGqO+l247SQnMgA7e6A=","addInboxDataEndpoint":"https://honeyworks-data-bridge.hummhive.workers.dev/addInboxData","listDataKeysEndpoint":"https://honeyworks-data-bridge.hummhive.workers.dev/listDataKeys","getDataEndpoint":"https://honeyworks-data-bridge.hummhive.workers.dev/getData","static":[]}

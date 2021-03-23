@@ -10,7 +10,7 @@ import { loadStripe } from "@stripe/stripe-js"
 function Subscribe({
   paymentCapabilityId = "honeyworksCloudStripe",
   activePlan = 0,
-  checkoutUrl = "https://humm-stripe-dev.hummhive.workers.dev/checkout/session/create",
+  checkoutUrl = "https://stripe-dev.hummhive.workers.dev/market/checkout/session/create",
 }) {
   const { hive } = React.useContext(HiveContext)
   const selectedPlan =
@@ -23,7 +23,7 @@ function Subscribe({
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({
-        hivePk: hive && hive.signingPublicKey,
+        hivePk: hive.signingPublicKey,
         memberPk: tweetnaclUtil.encodeBase64(
           JSON.parse(getMemberKeys()).encryption.public
         ),
@@ -70,7 +70,9 @@ function Subscribe({
             </span>
           </label>
         </div>
-        <button className="btn btn-highlight" onClick={handleClick}>Subscribe</button>
+        <button className="btn btn-highlight" onClick={handleClick}>
+          Subscribe
+        </button>
       </div>
     </Layout>
   )

@@ -15,7 +15,7 @@ function Login() {
 
   const handleSubmit = e => {
     e.preventDefault()
-    const authedUser = login(encryptionPublicKey)
+    const authedUser = login(hive.signingPublicKey, encryptionPublicKey)
     if (authedUser) {
       return
     } else {
