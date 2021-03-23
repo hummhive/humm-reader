@@ -19,7 +19,7 @@ const DocumentList = () => {
 
   return (
     <div className="container content">
-      {documents ? (
+      {documents && documents.length > 0 ? (
         documents.map((document, index) => {
           const summaryBlock = JSON.parse(document.body).find(
             e => e.type === "p" && e.children[0].text !== ""
