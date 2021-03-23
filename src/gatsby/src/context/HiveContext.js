@@ -20,7 +20,9 @@ export const HiveProvider = ({ children }) => {
     setLoading(true)
 
     const hive = await fetch(
-      `${coreData.getDataEndpoint}?hivePublicKey=${coreData.hivePublicKey}&collectionId=hummhive&dataId=hive`,
+      `${coreData.getDataEndpoint}?hivePublicKey=${encodeURIComponent(
+        coreData.hivePublicKey
+      )}&path=hummhive,hive`,
       { method: "GET" }
     ).then(async res => {
       if (!res.ok) {

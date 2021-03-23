@@ -23,7 +23,9 @@ export const DocumentProvider = ({ children }) => {
     setLoading(true)
 
     const publicDocs = await fetch(
-      `${coreData.getDataEndpoint}?hivePublicKey=${coreData.hivePublicKey}&collectionId=honeyworks&dataId=allPublicDocuments`,
+      `${coreData.getDataEndpoint}?hivePublicKey=${encodeURIComponent(
+        coreData.hivePublicKey
+      )}&path=honeyworks,allPublicDocuments`,
       { method: "GET" }
     ).then(async res => {
       if (!res.ok) {
@@ -42,7 +44,9 @@ export const DocumentProvider = ({ children }) => {
 
     if (memberKeysString) {
       privateDocs = await fetch(
-        `${coreData.getDataEndpoint}?hivePublicKey=${coreData.hivePublicKey}&collectionId=honeyworks&dataId=allPrivateDocuments`,
+        `${coreData.getDataEndpoint}?hivePublicKey=${encodeURIComponent(
+          coreData.hivePublicKey
+        )}&path=honeyworks,allPrivateDocuments`,
         { method: "GET" }
       ).then(async res => {
         if (!res.ok) {
