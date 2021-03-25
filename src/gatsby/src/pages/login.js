@@ -33,7 +33,7 @@ function Login() {
   }
   return (
     <Layout header="no">
-      <SEO title="Home" />
+      <SEO title="Access Hive" />
       <div className="d-flex w-100 min-vh-100 login-page">
         <div className="custombg"></div>
         <div className="d-flex flex-column flex-grow-1 mt-5 text-center align-items-center">

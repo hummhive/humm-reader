@@ -15,9 +15,6 @@ export default async (
   try {
     const memberKeys = generateKeySet()
     const memberKeysUint8 = transformKeysToUint8(memberKeys)
-
-    localStorage.setItem("member-keys", JSON.stringify(memberKeys))
-
     const memberData = {
       hive: hiveId,
       username: `${username}#${generateDiscriminator()}`,

@@ -27,8 +27,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .copyKey{
   font-size: 30px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 20px;
+}
+
+.showKey{
+  font-size: 30px;
+  margin-left: 0px;
+  margin-right: 0px;
   margin-top: 20px;
 }
 
@@ -39,11 +46,18 @@ a{
 .header a {
 	line-height: 1.5;
 	position: relative;
-	margin: 0 30px 0 0;
 	padding: 0;
   font-size: 19px;
   display: inline-block;
   pointer-events: auto;
+}
+
+.header li{
+  	margin: 0 30px 0 0;
+}
+
+.header li:last-child{
+  margin: 0;
 }
 
 .header .logo{
@@ -193,11 +207,15 @@ padding-left: 22px;
   color: #646eff;
 }
 
+.bg-highlight{
+  background: #646eff;
+}
+
 .btn-highlight {
 	background: #646eff;
   font-size: 20px;
   line-height: 1.5;
-  padding: 22px 26px;
+  padding: 10px 26px;
   border-radius: 100px;
   font-weight: 900;
   color: #fff;

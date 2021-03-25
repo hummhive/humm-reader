@@ -1,8 +1,9 @@
 import { navigate } from "gatsby"
-import loginService from "../services/loginService"
+import decodeMemberKeys from "../services/decodeMemberKeys"
 import tweetnaclUtil from "tweetnacl-util"
 
 export const isBrowser = () => typeof window !== "undefined"
+
 export const getMemberKeys = () =>
   isBrowser() && window.localStorage.getItem("member-keys")
     ? window.localStorage.getItem("member-keys")
@@ -25,8 +26,8 @@ export const isLoggedIn = () => {
   return !!memberKeys
 }
 
-export const paymentBillingPortal = hivePk => {
-  return fetch(
+export const paymentBillingPortal = async hivePk => {
+  return await fetch(
     "https://stripe-dev.hummhive.workers.dev/market/customer-portal",
     {
       method: "POST",
@@ -36,22 +37,23 @@ export const paymentBillingPortal = hivePk => {
       body: JSON.stringify({
         hivePk,
         memberPk: tweetnaclUtil.encodeBase64(
-          JSON.parse(getMemberKeys()).encryption.public
+          decodeMemberKeys(getMemberKeys()).encryption.public
         ),
       }),
     }
   )
     .then(response => response.json())
     .then(data => {
-      window.localStorage.setItem("paymentBillingPortal", data && data.url)
-    })
+         window.localStorage.setItem("paymentBillingPortal", data.url)
+         return data.url
+       })
     .catch(error => {
       console.error("Error:", error)
     })
 }
 
 export const login = (hivePk, encryptionPublicKey) => {
-  const authedUser = loginService(encryptionPublicKey)
+  const authedUser = decodeMemberKeys(encryptionPublicKey)
   if (authedUser) {
     localStorage.setItem("member-keys", JSON.stringify(authedUser))
     paymentBillingPortal(hivePk)

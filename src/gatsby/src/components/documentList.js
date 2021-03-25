@@ -53,8 +53,8 @@ const DocumentList = () => {
           <h1>Welcome to Honeyworks Website Creator</h1>
           <p className="lead pt-3">
             It seems like you have not published anything into your website yet.
-            In order to get started, try to publish a story as
-            "Public" using the Honeyworks Publisher.
+            In order to get started, try to publish a story as "Public" using
+            the Honeyworks Publisher.
           </p>
         </div>
       )}

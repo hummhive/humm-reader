@@ -1,12 +1,14 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
-import { isLoggedIn, logout, getBillingPortal } from "../services/auth"
+import { isLoggedIn, getBillingPortal } from "../services/auth"
 import { HiveContext } from "../context/HiveContext"
 import { FiHexagon } from "react-icons/fi"
 import React from "react"
 
 const Header = () => {
   const { hive } = React.useContext(HiveContext)
+  const checkPaymentGateway = hive && hive.connectionsConfig.honeyworksCloudStripe
+
   return (
     <div className="wrapper">
       <div className="header mt-3">
@@ -28,38 +30,37 @@ const Header = () => {
             </button>
             <div className="collapse d-flex" id="navbarSupportedContent">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
-                <li className="nav-item">
-                  {!isLoggedIn() && <Link to="/join">Join Hive</Link>}
-                </li>
-                <li className="nav-item">
-                  {!isLoggedIn() && (
+                {!isLoggedIn() && (
+                  <li className="nav-item">
+                    <Link to="/join">Join Hive</Link>
+                  </li>
+                )}
+                {!isLoggedIn() && (
+                  <li className="nav-item">
                     <Link className="btn btn-highlight" to="/login">
-                      Sign in
+                      Access
                     </Link>
-                  )}
-                </li>
-                <li className="nav-item">
-                  {isLoggedIn() && !getBillingPortal() && (
+                  </li>
+                )}
+                {isLoggedIn() && checkPaymentGateway && !getBillingPortal() && (
+                  <li className="nav-item">
                     <Link className="btn btn-highlight" to="/checkout">
                       Subscribe
                     </Link>
-                  )}
-                  {isLoggedIn() && getBillingPortal() && (
-                    <a
-                      href={window.localStorage.getItem("paymentBillingPortal")}
-                      className="btn btn-highlight"
+                  </li>
+                )}
+                {isLoggedIn() && (
+                  <li className="nav-item">
+                    <Link
+                      className={
+                        !getBillingPortal() ? "btn" : "btn btn-highlight"
+                      }
+                      to="/account"
                     >
-                      Account
-                    </a>
-                  )}
-                </li>
-                <li className="nav-item">
-                  {isLoggedIn() && (
-                    <Link to="/" onClick={logout}>
-                      Logout
+                      My Account
                     </Link>
-                  )}
-                </li>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -71,6 +72,7 @@ const Header = () => {
 
 Header.propTypes = {
   hive: PropTypes.object,
+  location: PropTypes.object,
 }
 
 export default Header

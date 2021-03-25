@@ -4,6 +4,7 @@ import { navigate } from "gatsby"
 import generatePrivateKeys from "../services/generatePrivateKeys"
 import { Link } from "gatsby"
 import { FiHexagon, FiCopy } from "react-icons/fi"
+import { FaEye } from "react-icons/fa"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { isLoggedIn } from "../services/auth"
 import { useStaticQuery, graphql } from "gatsby"
@@ -21,6 +22,7 @@ function Join() {
     }
   `)
   const [username, setUsername] = useState("")
+  const [displayCode, setDisplayCode] = useState(false)
   const [joinedSuccess, setJoinedSuccess] = useState(false)
   const [memberKeys, setMemberKeys] = useState("")
   const [copySuccess, setCopySuccess] = useState("COPY")
@@ -61,7 +63,7 @@ function Join() {
   }
   return (
     <Layout header="no">
-      <SEO title="Home" />
+      <SEO title="Join Hive" />
       <div className="d-flex w-100 min-vh-100 login-page">
         <div className="custombg"></div>
         <div className="d-flex flex-column flex-grow-1 mt-5 text-center align-items-center">
@@ -127,17 +129,22 @@ function Join() {
                       login with your account.
                     </p>
                     <div className="d-flex flex-row mb-3">
-                      <label
-                        htmlFor="exampleInputEmail1"
-                        className="form-label"
-                      ></label>
+                      <label className="form-label"></label>
                       <input
-                        type="text"
+                        type={displayCode ? "text" : "password"}
                         className="login-form-shadow"
                         id="memberKeys"
                         value={memberKeys}
-                        aria-describedby="emailHelp"
                       />
+                      <div>
+                        <span style={{ fontSize: "10px", textAlign: "center" }}>
+                          <FaEye
+                            className="showKey"
+                            onClick={() => setDisplayCode(!displayCode)}
+                          />{" "}
+                          SHOW
+                        </span>
+                      </div>
                       <div>
                         <CopyToClipboard
                           text={memberKeys}

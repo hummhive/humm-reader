@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 import { getMemberKeys } from "../../services/auth"
+import decodeMemberKeys from "../../services/decodeMemberKeys"
 import tweetnaclUtil from "tweetnacl-util"
 import PropTypes from "prop-types"
 import { HiveContext } from "../../context/HiveContext"
@@ -13,10 +14,12 @@ function Subscribe({
   checkoutUrl = "https://stripe-dev.hummhive.workers.dev/market/checkout/session/create",
 }) {
   const { hive } = React.useContext(HiveContext)
+  const [loading, setLoading] = useState(false)
   const selectedPlan =
     hive && hive.connectionsConfig[paymentCapabilityId].plans[activePlan]
-
+  const decodedMemberKeys = decodeMemberKeys(getMemberKeys())
   const handleClick = async () => {
+    setLoading(true)
     fetch(checkoutUrl, {
       method: "POST",
       headers: {
@@ -25,7 +28,7 @@ function Subscribe({
       body: JSON.stringify({
         hivePk: hive.signingPublicKey,
         memberPk: tweetnaclUtil.encodeBase64(
-          JSON.parse(getMemberKeys()).encryption.public
+          decodedMemberKeys.encryption.public
         ),
         priceId: selectedPlan.id,
       }),
@@ -41,6 +44,7 @@ function Subscribe({
             sessionId: checkout.sessionId,
           })
         } catch (e) {
+          setLoading(false)
           console.log(e.message)
         }
       })
@@ -51,7 +55,7 @@ function Subscribe({
       <SEO title="Subscribe" />
       <div className="container content">
         <div className="subscription-title">
-          Chose a subscription plan and support my content
+          Upgrade your subscription in order to enjoy premium content
         </div>
         <div className="subscription-plan">
           <label>
@@ -70,8 +74,12 @@ function Subscribe({
             </span>
           </label>
         </div>
-        <button className="btn btn-highlight" onClick={handleClick}>
-          Subscribe
+        <button
+          type="button"
+          className="btn btn-highlight"
+          onClick={handleClick}
+        >
+          {!loading ? "Checkout" : "Loading..."}
         </button>
       </div>
     </Layout>

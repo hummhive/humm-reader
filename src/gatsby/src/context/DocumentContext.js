@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import decrypt from "../services/decrypt"
+import { getMemberKeys } from "../services/auth"
+import decodeMemberKeys from "../services/decodeMemberKeys"
 import { useStaticQuery, graphql } from "gatsby"
 
 export const DocumentContext = React.createContext({})
@@ -28,6 +30,7 @@ export const DocumentProvider = ({ children }) => {
       { method: "GET" }
     ).then(async res => {
       if (!res.ok) {
+        console.log("test");
         return []
       }
       const buffer = await res.arrayBuffer()
@@ -37,7 +40,7 @@ export const DocumentProvider = ({ children }) => {
     })
 
     let privateDocs = {}
-    const memberKeysString = localStorage.getItem("member-keys")
+    const memberKeysString = decodeMemberKeys(getMemberKeys())
 
     if (memberKeysString) {
       privateDocs = await fetch(
