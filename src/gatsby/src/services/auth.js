@@ -26,7 +26,7 @@ export const isLoggedIn = () => {
   return !!memberKeys
 }
 
-export const paymentBillingPortal = async hivePk => {
+export const paymentBillingPortal = async (hivePk, sentTo) => {
   return await fetch(
     "https://stripe-dev.hummhive.workers.dev/market/customer-portal",
     {
@@ -44,9 +44,21 @@ export const paymentBillingPortal = async hivePk => {
   )
     .then(response => response.json())
     .then(data => {
-         window.localStorage.setItem("paymentBillingPortal", data.url)
-         return data.url
-       })
+      if (data.error === "Customer not found" && !data.url) {
+        window.localStorage.setItem("customerFound", false)
+      } else if (data.error !== "Customer not found" && !data.url) {
+        window.localStorage.setItem("customerFound", true)
+      } else if (data.url) {
+        window.localStorage.setItem("paymentBillingPortal", true)
+        if (!sentTo) {
+          return data.url
+        } else {
+          console.log(sentTo)
+          return window.open(data.url)
+        }
+      }
+      return null
+    })
     .catch(error => {
       console.error("Error:", error)
     })
@@ -64,7 +76,8 @@ export const login = (hivePk, encryptionPublicKey) => {
 }
 
 export const logout = () => {
-  localStorage.removeItem("member-keys")
   localStorage.removeItem("paymentBillingPortal")
+  localStorage.removeItem("member-keys")
+  localStorage.removeItem("customerFound")
   navigate(`/`, { state: { callback: true } })
 }

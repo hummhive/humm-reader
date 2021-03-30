@@ -1,14 +1,14 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
-import { isLoggedIn, getBillingPortal } from "../services/auth"
+import { isLoggedIn } from "../services/auth"
 import { HiveContext } from "../context/HiveContext"
 import { FiHexagon } from "react-icons/fi"
 import React from "react"
 
 const Header = () => {
   const { hive } = React.useContext(HiveContext)
+  const customerFound = JSON.parse(window.localStorage.getItem("customerFound"))
   const checkPaymentGateway = hive && hive.connectionsConfig.honeyworksCloudStripe
-
   return (
     <div className="wrapper">
       <div className="header mt-3">
@@ -42,7 +42,7 @@ const Header = () => {
                     </Link>
                   </li>
                 )}
-                {isLoggedIn() && checkPaymentGateway && !getBillingPortal() && (
+                {isLoggedIn() && checkPaymentGateway && !customerFound && (
                   <li className="nav-item">
                     <Link className="btn btn-highlight" to="/checkout">
                       Subscribe
@@ -53,7 +53,7 @@ const Header = () => {
                   <li className="nav-item">
                     <Link
                       className={
-                        !getBillingPortal() ? "btn" : "btn btn-highlight"
+                        !customerFound ? "btn" : "btn btn-highlight"
                       }
                       to="/account"
                     >

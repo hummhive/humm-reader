@@ -30,7 +30,6 @@ export const DocumentProvider = ({ children }) => {
       { method: "GET" }
     ).then(async res => {
       if (!res.ok) {
-        console.log("test");
         return []
       }
       const buffer = await res.arrayBuffer()
