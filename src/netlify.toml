@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "/*"
+  to = "/src/gatsby/hivebuild.html"
+  status = 404
