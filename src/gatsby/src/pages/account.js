@@ -1,16 +1,18 @@
 import React, { useState } from "react"
 import Layout from "../components/layout"
 import { HiveContext } from "../context/HiveContext"
-import { logout, getMemberKeys, paymentBillingPortal } from "../services/auth"
+import {
+  logout,
+  getMemberKeys,
+  getBillingPortal,
+  paymentBillingPortal,
+} from "../services/auth"
 import { FiLock, FiUnlock } from "react-icons/fi"
 import SEO from "../components/seo"
 
 const Account = () => {
   const { hive } = React.useContext(HiveContext)
   const [showKey, setShowKey] = useState(false)
-  const canAccessPaymentBillingPortal = JSON.parse(
-    window.localStorage.getItem("paymentBillingPortal")
-  )
 
   async function checkBillingPortal(hive, sendTo) {
     const result = await paymentBillingPortal(
@@ -60,7 +62,7 @@ const Account = () => {
               </small>
             </div>
           </div>
-          {canAccessPaymentBillingPortal && (
+          {getBillingPortal() && (
             <div className="row w-100 pt-3 pb-3 media text-muted">
               <div className="col-6">
                 <p className="media-body mb-0 small lh-125">

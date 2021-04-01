@@ -1,0 +1,45 @@
+<html>
+<head>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .body{
+      font-family: 'Nunito', sans-serif;
+    }
+    .hexagon-splash{
+      font-size: 200px;
+      color: #646eff;
+    }
+    .rotate {
+      animation: rotation 8s infinite linear;
+    }
+
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(359deg);
+      }
+    }
+    .highlight{
+      color: #646eff;
+    }
+    </style>
+  </head>
+  <body>
+<div class="container d-flex w-100 min-vh-100">
+  <div class="d-flex flex-column flex-grow-1 mt-5 text-center align-items-center mt-5 pt-5 ">
+    <div class="rotate" /><svg class="hexagon-splash" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hexagon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg></div>
+    <h2 class="mt-5">
+      Your <span class="highlight">Hive</span> is Being Created...
+      <br />
+      Soon you will be able to share your stories with others!
+    </h2>
+    <br />
+    <p class="p-5">Come back to this page in a minute or less!</p>
+  </div>
+</div>
+</body>
+</html>
