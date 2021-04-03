@@ -32,6 +32,8 @@ export const isLoggedIn = () => {
 }
 
 export const paymentBillingPortal = async (hivePk, sentTo) => {
+  if (typeof fetch === 'undefined') return
+
   const result = await fetch(
     "https://stripe-dev.hummhive.workers.dev/market/customer-portal",
     {
