@@ -9,8 +9,8 @@
     "watch": "node ./webpack5.js watch",
     "build": "node ./webpack5.js",
     "prepublishOnly": "npm run build",
-    "build:gatsby": "cp -a includes/. static && gatsby build",
-    "develop:gatsby": "rm -r static && gatsby develop",
+    "build:gatsby": "gatsby build",
+    "develop:gatsby": "gatsby develop",
     "clean:gatsby": "gatsby clean"
   },
   "keywords": [],
