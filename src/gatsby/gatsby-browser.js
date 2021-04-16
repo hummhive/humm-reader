@@ -5,13 +5,16 @@
  */
 
 import React from "react"
-import { DocumentProvider } from "./src/context/DocumentContext"
+import { StoryProvider } from "./src/context/StoryContext"
 import { HiveProvider } from "./src/context/HiveContext"
+import { StoryIndexProvider } from "./src/context/StoryIndexContext"
 import "@fontsource/nunito" // Defaults to weight 400.
 import "@fontsource/nunito/900.css" // Weight 500.
 
 export const wrapRootElement = ({ element }) => (
   <HiveProvider>
-    <DocumentProvider>{element}</DocumentProvider>
+    <StoryIndexProvider>
+      <StoryProvider>{element}</StoryProvider>
+    </StoryIndexProvider>
   </HiveProvider>
 )

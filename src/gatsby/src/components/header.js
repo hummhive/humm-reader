@@ -9,7 +9,7 @@ const Header = () => {
   const { hive } = React.useContext(HiveContext)
   const checkPaymentGateway =
     hive && hive.connectionsConfig.honeyworksCloudStripe
-    console.log(customerFound())
+
   return (
     <div className="wrapper">
       <div className="header mt-3">

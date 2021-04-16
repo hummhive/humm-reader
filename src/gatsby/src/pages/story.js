@@ -1,31 +1,37 @@
 import React from "react"
 import Layout from "../components/layout"
 import PropTypes from "prop-types"
-import { DocumentContext } from "../context/DocumentContext"
+import { StoryContext } from "../context/StoryContext"
 import Moment from "react-moment"
 import SEO from "../components/seo"
 import { FiClock } from "react-icons/fi"
 import DocumentBuilder from "../components/documentBuilder"
 
 const Story = ({ slug }) => {
-  const { loading, documents } = React.useContext(DocumentContext)
-  const document = documents && documents[slug]
+  const { loading, stories, getStory } = React.useContext(StoryContext)
+  const story = stories[slug]
 
-  if (!document) return null
+  React.useEffect(() => {
+    getStory(slug)
+  }, [])
 
-  const body = JSON.parse(document.body)
+  if (loading) return 'Loading...'
+  if (story === null) return 'Story not found'
+  if (!story) return null
+
+  const body = JSON.parse(story.body)
 
   return (
     <Layout>
-      <SEO title={document.title} />
+      <SEO title={story.title} />
       <div className="container content">
         <div className="post-title">
-          <h1>{document.title}</h1>
+          <h1>{story.title}</h1>
         </div>
         <div className="meta d-flex pt-1">
           <div className="date">
             <FiClock /> Date Published:{" "}
-            <Moment format="DD/MM/YYYY">{document.createdAt}</Moment>
+            <Moment format="DD/MM/YYYY">{story.createdAt}</Moment>
           </div>
         </div>
         {body.map((element, i) => (

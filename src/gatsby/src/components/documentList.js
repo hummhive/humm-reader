@@ -2,47 +2,34 @@ import React from "react"
 import { Link } from "gatsby"
 import Moment from "react-moment"
 import { FiClock } from "react-icons/fi"
-import { DocumentContext } from "../context/DocumentContext"
+import { StoryIndexContext } from "../context/StoryIndexContext"
 import "./bootstrap.min.css"
 import "./layout.css"
 
 const DocumentList = () => {
-  const { documents: documentsObj } = React.useContext(DocumentContext)
-
-  const documents =
-    documentsObj &&
-    Object.keys(documentsObj)
-      .map(docSlug => {
-        return documentsObj[docSlug]
-      })
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  const { storyIndex } = React.useContext(StoryIndexContext)
 
   return (
     <div className="container content">
-      {documents && documents.length > 0 ? (
-        documents.map((document, index) => {
-          const summaryBlock = JSON.parse(document.body).find(
-            e => e.type === "p" && e.children[0].text !== ""
-          )
-          const summary = (summaryBlock && summaryBlock.children[0].text) || ""
-
+      {storyIndex && storyIndex.length > 0 ? (
+        storyIndex.map((story, index) => {
           return (
-            <div key={document.slug} className="post">
+            <div key={story.slug} className="post">
               <div className="post-title" key={`content_item_${index}`}>
                 <h1>
-                  <Link to={`/story/${document.slug}`}>{document.title}</Link>
+                  <Link to={`/story/${story.id}`}>{story.title}</Link>
                 </h1>
               </div>
               <div className="meta d-flex pt-1">
                 <div className="date">
                   <FiClock /> Date Published:{" "}
-                  <Moment format="DD/MM/YYYY">{document.createdAt}</Moment>
+                  <Moment format="DD/MM/YYYY">{story.createdAt}</Moment>
                 </div>
               </div>
               <div className="summary pt-3">
-                {summary.length > 350
-                  ? summary.substr(0, 350 - 1) + "..."
-                  : summary}
+                {story.summary?.length > 350
+                  ? story.summary.substr(0, 350 - 1) + "..."
+                  : story.summary}
               </div>
               <div className="entry-footer pt-3"></div>
             </div>

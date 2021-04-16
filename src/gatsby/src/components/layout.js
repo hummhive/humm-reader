@@ -22,7 +22,7 @@ const Layout = ({ children, header }) => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  header: PropTypes.node.isRequired,
+  header: PropTypes.node,
 }
 
 export default Layout

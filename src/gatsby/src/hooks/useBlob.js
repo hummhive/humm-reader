@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import { getMemberKeys } from "../services/auth"
 import decrypt from "../services/decrypt"
+import decodeMemberKeys from "../services/decodeMemberKeys"
 
 export default function useBlob(filename) {
   const { coreDataJson: coreData } = useStaticQuery(graphql`
@@ -42,8 +44,7 @@ export default function useBlob(filename) {
         return
       }
 
-      const memberKeysString = localStorage.getItem("member-keys")
-      const memberKeys = JSON.parse(memberKeysString)
+      const memberKeys = decodeMemberKeys(getMemberKeys())
       const keyPair = {
         publicKey: Uint8Array.from(memberKeys.encryption.public),
         secretKey: Uint8Array.from(memberKeys.encryption.secret),
