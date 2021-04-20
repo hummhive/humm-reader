@@ -9,7 +9,7 @@ import DocumentBuilder from "../components/documentBuilder"
 
 const Story = ({ slug }) => {
   const { loading, stories, getStory } = React.useContext(StoryContext)
-  const story = stories[slug]
+  const story = stories && stories[slug]
 
   React.useEffect(() => {
     getStory(slug)
