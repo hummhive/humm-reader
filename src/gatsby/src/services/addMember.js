@@ -36,7 +36,7 @@ export default async (
     const res = await fetch(
       `${addInboxDataEndpoint}?hivePublicKey=${encodeURIComponent(
         hiveSigPublicKey
-      )}&path=hummhiveMember`,
+      )}&path=hummhiveMemberRequest`,
       {
         method: "POST",
         body: saltpack,
