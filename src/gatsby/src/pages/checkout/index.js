@@ -6,6 +6,7 @@ import decodeMemberKeys from "../../services/decodeMemberKeys"
 import tweetnaclUtil from "tweetnacl-util"
 import PropTypes from "prop-types"
 import { HiveContext } from "../../context/HiveContext"
+import { GroupsContext } from "../../context/GroupsContext"
 import { loadStripe } from "@stripe/stripe-js"
 
 function Subscribe({
@@ -13,12 +14,22 @@ function Subscribe({
   activePlan = 0,
   checkoutUrl = "https://stripe-dev.hummhive.workers.dev/market/checkout/session/create",
 }) {
-  const { hive } = React.useContext(HiveContext)
+  const [selectedPlanId, setSelectedPlanId] = useState(null)
   const [loading, setLoading] = useState(false)
-  const selectedPlan =
-    hive && hive.connectionsConfig[paymentCapabilityId].plans[activePlan]
+  const { hive } = React.useContext(HiveContext)
+  const { groups } = React.useContext(GroupsContext)
+
+  const plans = groups?.filter(g => g.paymentPluginData.some(p => p.pluginId === paymentCapabilityId))
+    .map(g => {
+      const stripePlanData = g.paymentPluginData.find(p => p.pluginId === paymentCapabilityId)
+      return {
+        ...g,
+        ...stripePlanData,
+      }
+    })
   const decodedMemberKeys = decodeMemberKeys(getMemberKeys())
-  const handleClick = async () => {
+
+  const handleSubmit = async () => {
     setLoading(true)
     fetch(checkoutUrl, {
       method: "POST",
@@ -28,9 +39,9 @@ function Subscribe({
       body: JSON.stringify({
         hivePk: hive.signingPublicKey,
         memberPk: tweetnaclUtil.encodeBase64(
-          decodedMemberKeys.encryption.public
+          decodedMemberKeys.signing.public
         ),
-        priceId: selectedPlan.id,
+        priceId: selectedPlanId,
       }),
     })
       .then(response => response.json())
@@ -49,7 +60,9 @@ function Subscribe({
         }
       })
   }
+
   if (!hive) return null
+
   return (
     <Layout>
       <SEO title="Subscribe" />
@@ -57,27 +70,31 @@ function Subscribe({
         <div className="subscription-title">
           Upgrade your subscription in order to enjoy premium content
         </div>
-        <div className="subscription-plan">
-          <label>
-            <input
-              name="plan"
-              type="radio"
-              value={selectedPlan.unitAmount / 100}
-              checked
-            />
-            <span>
-              Monthly -{" "}
-              <strong>
-                US$
-                {selectedPlan.unitAmount / 100}
-              </strong>
-            </span>
-          </label>
-        </div>
+        {plans?.map(plan => (
+          <div key={plan.planId} className="subscription-plan">
+            <label>
+              <input
+                name="plan"
+                type="radio"
+                value={plan.planId}
+                checked={selectedPlanId === plan.planId}
+                onChange={() => setSelectedPlanId(plan.planId)}
+              />
+              <span>
+                {plan.name} -{" "}
+                Monthly -{" "}
+                <strong>
+                  $
+                  {(plan.amount / 100).toFixed(2)}
+                </strong>
+              </span>
+            </label>
+          </div>
+        ))}
         <button
           type="button"
           className="btn btn-highlight"
-          onClick={handleClick}
+          onClick={handleSubmit}
         >
           {!loading ? "Checkout" : "Loading..."}
         </button>

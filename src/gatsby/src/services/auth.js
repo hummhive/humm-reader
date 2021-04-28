@@ -10,9 +10,7 @@ export const getMemberKeys = () =>
     : null
 
 export const customerFound = () =>
-  isBrowser() && window.localStorage.getItem("customerFound")
-    ? JSON.parse(window.localStorage.getItem("member-keys"))
-    : null
+  isBrowser() && window.localStorage.getItem("customerFound") === 'true'
 
 export const getBillingPortal = () =>
   isBrowser() && window.localStorage.getItem("paymentBillingPortal")

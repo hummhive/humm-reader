@@ -2,13 +2,16 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import { isLoggedIn, customerFound } from "../services/auth"
 import { HiveContext } from "../context/HiveContext"
+import { GroupsContext } from "../context/GroupsContext"
 import { FiHexagon } from "react-icons/fi"
 import React from "react"
 
 const Header = () => {
   const { hive } = React.useContext(HiveContext)
-  const checkPaymentGateway =
-    hive && hive.connectionsConfig.honeyworksCloudStripe
+  const { groups } = React.useContext(GroupsContext)
+  const hasStripePlans = groups?.some(g => g.paymentPluginData.some(p => p.pluginId === 'honeyworksCloudStripe'));
+  // const checkPaymentGateway =
+  //   hive && hive.connectionsConfig.honeyworksCloudStripe
 
   return (
     <div className="wrapper">
@@ -43,7 +46,7 @@ const Header = () => {
                     </Link>
                   </li>
                 )}
-                {isLoggedIn() && checkPaymentGateway && !customerFound() && (
+                {isLoggedIn() && hasStripePlans && !customerFound() && (
                   <li className="nav-item">
                     <Link className="btn btn-highlight" to="/checkout">
                       Subscribe
@@ -53,7 +56,7 @@ const Header = () => {
                 {isLoggedIn() && (
                   <li className="nav-item">
                     <Link
-                      className={customerFound() || checkPaymentGateway ? "btn" : "btn btn-highlight"}
+                      className={customerFound() || hasStripePlans ? "btn" : "btn btn-highlight"}
                       to="/account"
                     >
                       My Account
