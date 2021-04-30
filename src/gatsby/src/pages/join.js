@@ -97,7 +97,9 @@ function Join() {
     }
   }
 
-  const handleStripe = async () => {
+  const handleStripe = async (e) => {
+    e.preventDefault()
+
     const stripePlanData = selectedGroup.paymentPluginData.find(p => p.pluginId === paymentCapabilityId)
     const memberKeys = decodeMemberKeys(getMemberKeys())
     const memberKeysUint8 = transformKeysToUint8(memberKeys)
