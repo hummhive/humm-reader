@@ -37,8 +37,8 @@ export const HiveProvider = ({ children }) => {
     })
 
     if (hive) {
-      setHive(hive.public)
-      localStorage.setItem("cached-hive", JSON.stringify(hive.public))
+      setHive(hive)
+      localStorage.setItem("cached-hive", JSON.stringify(hive))
     }
 
     setLoading(false)
